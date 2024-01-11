@@ -11,7 +11,7 @@ class ViewController extends Controller
      */
     public function index()
     {
-        return view('pages.index', [
+        return view('welcome', [
             'home' => 'Home'
         ]);
     }
