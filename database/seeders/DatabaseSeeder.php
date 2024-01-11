@@ -31,19 +31,19 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::factory()->create([
-            'name' => 'Admin',
+            'username' => 'Admin',
             'email' => 'admin@example.com',
             'password' => Hash::make('password'),
             'roleId' => 1
         ]);
         User::factory()->create([
-            'name' => 'Kasir',
+            'username' => 'Kasir',
             'email' => 'kasir@example.com',
             'password' => Hash::make('password'),
             'roleId' => 2
         ]);
         User::factory()->create([
-            'name' => 'Pelanggan',
+            'username' => 'Pelanggan',
             'email' => 'pelanggan@example.com',
             'password' => Hash::make('password'),
             'roleId' => 3
