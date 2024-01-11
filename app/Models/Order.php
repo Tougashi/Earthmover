@@ -15,14 +15,14 @@ class Order extends Model
 
     public function Product()
     {
-        return $this->hasMany(Product::class, 'productId');
+        return $this->belongsTo(Product::class, 'productId');
     }
     public function Transaction()
     {
-        return $this->hasMany(Transaction::class, 'transactionId');
+        return $this->belongsTo(Transaction::class, 'transactionId');
     }
     public function User()
     {
-        return $this->hasMany(User::class, 'userId');
+        return $this->belongsTo(User::class, 'userId');
     }
 }

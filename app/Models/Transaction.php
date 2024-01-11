@@ -11,4 +11,9 @@ class Transaction extends Model
     protected $fillable = [
         'status', 'userId'
     ];
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }
