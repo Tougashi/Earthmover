@@ -18,6 +18,7 @@
 </head>
  <body style="overflow: hidden">
     <div class="wrapper">
+        {{-- <img src="{{ asset('assets/image/dot.jpg') }}" alt="Background Image" class="background-image"> --}}
         <br><br>
         <div class="section-authentication-signin d-flex justify-content-center align-items-center my-5 my-lg-4">
             <div class="container-fluid">
@@ -86,7 +87,7 @@
     </div>
     </div>
     <footer class="bg-black shadow-sm border-top border-2 p-2 text-center fixed-bottom">
-        <p class="mb-0 footer text-light">EARTHMOVER | Hak Cipta © 2024.</p>
+        <p class="mb-0 footer text-light">© EARTHMOVER 2024</p>
     </footer>
 
     {{-- HIDE & SHOW PASSWORD --}}
