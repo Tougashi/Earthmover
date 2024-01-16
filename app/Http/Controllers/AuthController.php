@@ -20,7 +20,7 @@ class AuthController extends Controller
 
     public function registrasi()
     {
-        return view('Registration.index', [
+        return view('Auth.Registration.index', [
             'title' => 'Registrasi'
         ]);
     }
