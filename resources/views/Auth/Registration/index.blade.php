@@ -84,7 +84,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>p     
     <footer class="bg-black shadow-sm border-top border-2 p-2 text-center fixed-bottom">
         <p class="mb-0 footer text-light">© EARTHMOVER 2024</p>
     </footer>
