@@ -24,7 +24,7 @@
                 <div class="container">
                     <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3">
                         <div class="col mx-auto">
-                            <div class="card mt-auto rounded border-2 border-dark">
+                            <div class="card mt-auto rounded-5 border-2 border-dark">
                                 <div class="card-body">
                                     <div class="p-4 rounded">
                                         <div class="text-center">

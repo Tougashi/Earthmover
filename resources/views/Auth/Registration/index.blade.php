@@ -24,7 +24,7 @@
                 <div class="container-fluid">
                     <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3">
                         <div class="col mx-auto">
-                            <div class="card mt-5 mt-lg-0 rounded border-2 border-dark">
+                            <div class="card mt-5 mt-lg-0 rounded-5 border-2 border-dark">
                                 <div class="card-body rounded">
                                     <div class="p-4 rounded">
                                     <div class="text-center">
