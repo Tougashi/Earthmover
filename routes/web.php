@@ -11,6 +11,8 @@ Route::middleware([])->group(function(){
         Route::get('/', 'login')->name('login');
         Route::get('/login', 'login')->name('login');
         Route::post('/authentication', 'auth')->name('auth');
+        Route::get('/registrasi', 'registrasi')->name('registrasi');
+        Route::post('/registrasi', 'signup')->name('signup');
     });
 });
 

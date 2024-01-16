@@ -11,8 +11,8 @@ class AdminController extends Controller
      */
     public function index()
     {
-        return view('welcome', [
-            'home' => 'Home'
+        return view('Admin.Layout.index', [
+            'title' => 'Dashboard'
         ]);
     }
 
