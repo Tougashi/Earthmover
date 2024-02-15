@@ -4,24 +4,27 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
-    public function login()
+    public function signin()
     {
         return view('Auth.index', [
-            'title' => 'Login'
+            'title' => 'SignIn'
         ]);
     }
 
-    public function registrasi()
+    public function registration()
     {
         return view('Auth.Registration.index', [
-            'title' => 'Registrasi'
+            'title' => 'Registration'
         ]);
     }
 
@@ -36,39 +39,45 @@ class AuthController extends Controller
             $user = Auth::user();
 
             if($user->roleId == 1) {
-                return redirect('admin/dashboard')->with(['success', 'Berhasil Login Admin']);
+                return redirect('admin/dashboard')->with(['success', 'Hallo, Admin!']);
             }elseif($user->roleId == 2) {
-                return redirect('kasir/dashboard')->with(['success', 'Berhasil Login Kasir']);
+                return redirect('cashier/dashboard')->with(['success', 'Hallo, Cashier!']);
             }elseif($user->roleId == 3) {
-                return redirect('/beranda')->with(['success', 'Berhasil Login Pelanggan']);   
+                return redirect('/home')->with(['success', 'Hallo, Customers!']);   
             }else{
                 return redirect('/')->with(['?']);
             }
         }
 
-        return back()->with(['gagal']);
+        return back()->with(['Failed to signin']);
     }
 
     public function signup(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email:dns|email:rfc|unique:users',
             'username' => 'required|max:255|unique:users',
-            'email' => 'required|email:dns|unique:users',
-            'password' => 'required|min:8|max:255'
+            'password' => 'required|min:8|max:255|customPassword'
         ]);
-        $user = new user();
-        $user->username = $request->username;
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+        $user = new User();
         $user->email = $request->email;
-        $user->password = Hash::make($request->password);
+        $user->username = $request->username;
+        $user->remember_token = Str::random(60);
+        $user->email_verified_at = Carbon::now();
+        $user->password = Bcrypt($request->password);
         $user->roleId = 3;
         $user->save();
-        return back()->with('success', 'Berhasil Registrasi');
+    
+        return back()->with('success', 'Success created account!');
     }
 
-    public function logout()
+    public function signout()
     {
         Auth::logout();
-        return redirect()->route('/login');
+        return redirect()->route('/');
     }
 
 }

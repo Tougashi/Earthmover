@@ -1,34 +1,38 @@
- <!DOCTYPE html>
- <html lang="en">
- <head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ $title }}</title>
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/image/logo/logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/image/logo/logo.png">
+    
+    {{-- CSS STYLE  --}}
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/image/logo.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/image/logo.png">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="{{ asset('assets/plugins/Bootstrap/css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/BoxIcons/css/boxicons.css') }}">
+
+    {{-- JS SCRIPT  --}}
+    <script src="{{ asset('assets/js/particles.js') }}"></script>
+    <script src="{{ asset('assets/js/app.js') }}"></script>
+    <script src="{{ asset('assets/js/script.js') }}"></script>
+    <script src="{{ asset('assets/plugins/Bootstrap/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('assets/plugins/JQuery/jquery.3.4.1.js') }}"></script>
 </head>
 <body style="overflow: hidden">
-    <div id="particles-js"></div>
-        <div class="wrapper">
+    <div class="wrapper">
+            <div id="particles-js"></div>
             <br><br><br><br>
-            <div class="section-authentication-signin d-flex justify-content-center align-items-center my-5 my-lg-4">
+            <div class="d-flex justify-content-center align-items-center my-5 my-lg-4">
                 <div class="container">
                     <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3">
                         <div class="col mx-auto">
-                            <div class="card mt-auto rounded-5 border-2 border-dark">
+                            <div class="card mt-auto custom-rounded rounded-5 border-2 border-dark">
                                 <div class="card-body">
                                     <div class="p-4 rounded">
                                         <div class="text-center">
-                                            <img src="/assets/image/logo-text.png" alt="Kantinku" width="300" class="rounded mx-auto d-block">
+                                            <img src="/assets/image/logo/logo-text.png" alt="Kantinku" width="300" class="rounded mx-auto d-block">
                                         </div>
                                         <br>
                                         <div class="form-body">
@@ -40,21 +44,21 @@
                                             <form class="row g-3" action="{{ route('auth') }}" method="POST">
                                                 @csrf
                                                 <div class="col-12">
-                                                    <label for="Username" class="form-label">Nama Pengguna</label>
-                                                    <input type="text" class="form-control border border-dark" id="username" placeholder="Masukan Nama Pengguna" name="username">
+                                                    <label for="Username" class="form-label">Username</label>
+                                                    <input type="text" class="form-control border border-dark" id="username" placeholder="John Doe" name="username">
                                                 </div>
                                                 <div class="col-12">
-                                                    <label for="inputChoosePassword" class="form-label">Kata Sandi</label>
+                                                    <label for="inputChoosePassword" class="form-label">Password</label>
                                                     <div class="input-group" id="showHide">
-                                                        <input type="password" class="form-control border border-dark" id="password" placeholder="Masukan Kata Sandi" name="password">
+                                                        <input type="password" class="form-control border border-dark" id="password" placeholder="********" name="password">
                                                         <a href="#" class="input-group-text bg-transparent border border-dark"><i class='bx bx-hide'></i></a>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6"><a href="#" class="text-black">Lupa Kata Sandi?</a></div>
-                                                <div class="col-md-6 text-end"><a href="/registrasi" class="text-black">Belum Punya Akun?</a></div>
+                                                <div class="col-md-6"><a href="#" class="text-black">Forgot password?</a></div>
+                                                <div class="col-md-6 text-end"><a href="/signup" class="text-black">Don't have an account?</a></div>
                                                 <div class="col-12">
                                                     <div class="d-grid">
-                                                        <button type="submit" class="btn btn-dark"><i class="bx bxs-lock-open"></i>Masuk</button>
+                                                        <button type="submit" class="btn btn-dark"><i class="bx bxs-lock-open"></i>SignIn</button>
                                                     </div>
                                                 </div>
                                             </form>
@@ -66,10 +70,10 @@
                     </div>
                 </div>
             </div>
+            <footer class="bg-black shadow-sm border-top border-2 p-2 text-center fixed-bottom">
+                <p class="mb-0 footer text-light">© EARTHMOVER 2024</p>
+            </footer>
         </div>    
-    <footer class="bg-black shadow-sm border-top border-2 p-2 text-center fixed-bottom">
-        <p class="mb-0 footer text-light">© EARTHMOVER 2024</p>
-    </footer>
     {{-- HIDE & SHOW PASSWORD --}}
     <script>
 		$(document).ready(function () {

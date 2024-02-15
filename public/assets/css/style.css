@@ -8,6 +8,10 @@
      overflow: hidden;
 }
 
+.custom-rounded {
+     border-radius: 15px !important; /* Adjust this value to change the level of roundness */
+ }
+
 /* AUTHENTICATION STYLE PAGE */
 .wrapper {
      z-index: 1;
@@ -32,4 +36,23 @@
      width: 100%;
      height: 100%;
      z-index: -1;
+}
+
+/* Custom styles */
+.sidebar {
+     background-color: #000;
+     height: 100vh;
+     position: fixed;
+     top: 0;
+     left: 0;
+     width: 250px;
+     padding-top: 60px; /* Adjust this value according to your navbar height */
+}
+.navbar {
+     background-color: #000;
+     position: fixed;
+     top: 0;
+     left: 0;
+     width: 100%;
+     z-index: 1000; /* Ensure navbar is on top of sidebar */
 }

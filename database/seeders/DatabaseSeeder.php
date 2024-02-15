@@ -22,40 +22,40 @@ class DatabaseSeeder extends Seeder
             'created_at' => Carbon::now()
         ]);
         Role::create([
-            'role' => 'Kasir',
+            'role' => 'Cashier',
             'created_at' => Carbon::now()
         ]);
         Role::create([
-            'role' => 'Pelanggan',
+            'role' => 'Customers',
             'created_at' => Carbon::now()
         ]);
 
         User::factory()->create([
             'username' => 'Admin',
             'email' => 'admin@example.com',
-            'password' => Hash::make('password'),
+            'password' => Bcrypt('password'),
             'roleId' => 1
         ]);
         User::factory()->create([
-            'username' => 'Kasir',
-            'email' => 'kasir@example.com',
-            'password' => Hash::make('password'),
+            'username' => 'Cashier',
+            'email' => 'cashier@example.com',
+            'password' => Bcrypt('password'),
             'roleId' => 2
         ]);
         User::factory()->create([
-            'username' => 'Pelanggan',
-            'email' => 'pelanggan@example.com',
-            'password' => Hash::make('password'),
+            'username' => 'Customers',
+            'email' => 'customers@example.com',
+            'password' => Bcrypt('password'),
             'roleId' => 3
         ]);
 
         Category::factory()->create([
-            'name' => 'Makanan',
-            'description' => 'Makanan Berat & Ringan'
+            'name' => 'T-Shirt',
+            'description' => 'T-Shirt'
         ]);
         Category::factory()->create([
-            'name' => 'Minuman',
-            'description' => 'Minuman Berat & Ringan'
+            'name' => 'Pants',
+            'description' => 'Pants'
         ]);
     }
 }
