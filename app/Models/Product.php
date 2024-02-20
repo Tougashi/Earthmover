@@ -17,6 +17,10 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class, 'categoryId');
     }
+    public function Supplier()
+    {
+        return $this->belongsTo(Supplier::class, 'supplierId');
+    }
     public function Order()
     {
         return $this->hasMany(Order::class);

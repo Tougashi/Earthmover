@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\Category;
+use App\Models\Supplier;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 
@@ -31,19 +32,19 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::factory()->create([
-            'username' => 'Admin',
+            'username' => 'Adryan',
             'email' => 'admin@example.com',
             'password' => Bcrypt('password'),
             'roleId' => 1
         ]);
         User::factory()->create([
-            'username' => 'Cashier',
+            'username' => 'Claire',
             'email' => 'cashier@example.com',
             'password' => Bcrypt('password'),
             'roleId' => 2
         ]);
         User::factory()->create([
-            'username' => 'Customers',
+            'username' => 'Guest',
             'email' => 'customers@example.com',
             'password' => Bcrypt('password'),
             'roleId' => 3
@@ -51,11 +52,17 @@ class DatabaseSeeder extends Seeder
 
         Category::factory()->create([
             'name' => 'T-Shirt',
+            'slug' => 't-shirt',
             'description' => 'T-Shirt'
         ]);
         Category::factory()->create([
             'name' => 'Pants',
+            'slug' => 'pants',
             'description' => 'Pants'
+        ]);
+        Supplier::factory()->create([
+            'name' => '7Club',
+            'slug' => '7club'
         ]);
     }
 }

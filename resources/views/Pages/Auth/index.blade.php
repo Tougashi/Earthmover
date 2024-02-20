@@ -58,7 +58,7 @@
                                                 <div class="col-md-6 text-end"><a href="/signup" class="text-black">Don't have an account?</a></div>
                                                 <div class="col-12">
                                                     <div class="d-grid">
-                                                        <button type="submit" class="btn btn-dark"><i class="bx bxs-lock-open"></i>SignIn</button>
+                                                        <button type="submit" class="btn btn-dark"><i class="bx bxs-lock-open"></i> Sign In</button>
                                                     </div>
                                                 </div>
                                             </form>

@@ -18,6 +18,8 @@ return new class extends Migration
             $table->integer('stock');
             $table->decimal('price', 10, 2);
             $table->string('image');
+            $table->unsignedBigInteger('supplierId');
+            $table->foreign('supplierId')->references('id')->on('suppliers')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('categoryId');
             $table->foreign('categoryId')->references('id')->on('categories')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();

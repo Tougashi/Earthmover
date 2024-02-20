@@ -80,7 +80,7 @@
                                             <br>
                                             <div class="col-12">
                                                 <div class="d-grid">
-                                                    <button type="submit" class="btn btn-dark"><i class="bx bxs-lock-open"></i>Registrasi</button>
+                                                    <button type="submit" class="btn btn-dark"><i class="bx bxs-lock-open"></i> Sign Up</button>
                                                 </div>
                                             </div>
                                         </form>

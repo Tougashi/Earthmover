@@ -1,9 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\CashierController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ViewController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\TrasactionController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\UserController;
 
 // Route Authentication
 Route::middleware(['guest'])->group(function(){
@@ -26,16 +31,19 @@ Route::middleware(['auth'])->group(function(){
 // Route Admin 
 Route::middleware(['auth', 'checkrole:1'])->group(function(){
     Route::prefix('admin')->group(function(){
-        Route::controller(AdminController::class)->group(function(){
+        Route::controller(ViewController::class)->group(function(){
             Route::get('/dashboard', 'index');
+        });
+        Route::controller(ProductController::class)->group(function(){
+            Route::get('/products', 'index');
         });
     });
 });
 
 // Route Kasir
 Route::middleware(['auth', 'checkrole:2'])->group(function(){
-    Route::prefix('kasir')->group(function(){
-        Route::controller(CashierController::class)->group(function(){
+    Route::prefix('cashier')->group(function(){
+        Route::controller(ViewController::class)->group(function(){
             Route::get('/dashboard', 'index');
         });
     });

@@ -16,14 +16,14 @@ class AuthController extends Controller
 {
     public function signin()
     {
-        return view('Auth.index', [
+        return view('pages.Auth.index', [
             'title' => 'SignIn'
         ]);
     }
 
     public function registration()
     {
-        return view('Auth.Registration.index', [
+        return view('pages.Auth.Registration.index', [
             'title' => 'Registration'
         ]);
     }
@@ -77,7 +77,7 @@ class AuthController extends Controller
     public function signout()
     {
         Auth::logout();
-        return redirect()->route('/');
+        return redirect()->route('signin');
     }
 
 }

@@ -1,4 +1,4 @@
-@extends('Admin.Layouts.index')
+@extends('Layouts.index')
 @section('content')
     
 @endsection
