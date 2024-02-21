@@ -11,7 +11,7 @@
     {{-- CSS STYLE  --}}
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/Bootstrap/css/bootstrap.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/plugins/BoxIcons/css/boxicons.css') }}">>
+    <link rel="stylesheet" href="{{ asset('assets/plugins/BoxIcons/css/boxicons.css') }}">
 
     {{-- JS SCRIPT  --}}
     <script src="{{ asset('assets/js/particles.js') }}"></script>
@@ -22,18 +22,17 @@
 </head>
 <body style="overflow: hidden">
     <div class="wrapper">
-            <div id="particles-js"></div>
-            <br><br>
-            <div class="d-flex justify-content-center align-items-center my-5 my-lg-4">
-                <div class="container-fluid">
-                    <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3">
-                        <div class="col mx-auto">
-                            <div class="card mt-auto custom-rounded rounded-5 border-2 border-dark">
-                                <div class="card-body">
-                                    <div class="p-4 rounded">
-                                        <div class="text-center">
-                                            <img src="/assets/image/logo/logo-text.png" alt="Kantinku" width="300" class="rounded mx-auto d-block">
-                                        </div>
+        <div id="particles-js"></div>
+        <div class="d-flex justify-content-center align-items-center vh-100">
+            <div class="container pb-5">
+                <div class="row justify-content-center">
+                    <div class="col-md-7"> 
+                        <div class="card mt-auto custom-rounded rounded-5 border-2 border-dark mx-auto"> <!-- Menambahkan kelas mx-auto -->
+                            <div class="card-body">
+                                <div class="p-4 rounded">
+                                    <div class="text-center">
+                                        <img src="/assets/image/logo/logo-text.png" alt="Kantinku" width="300" class="rounded mx-auto d-block mb-2">
+                                    </div>
                                     <div class="form-body">
                                         @if (Session::has('success'))
                                             <div class="alert alert-success bg-dark text-light" role="alert">
@@ -69,7 +68,7 @@
                                                     @enderror
                                                 </div>
                                             </div>
-                                            <div class="col-md-6 ">
+                                            <div class="col-md-6">
                                                 <div class="form-check form-switch">
                                                     <input class="form-check-input bg-dark" type="checkbox" id="flexSwitchCheckChecked" required>
                                                     <label class="form-check-label" for="flexSwitchCheckChecked">I agree to the <a href="" class="text-dark">terms & conditions</a></label>
@@ -92,10 +91,11 @@
                 </div>
             </div>
         </div>
-    <footer class="bg-black shadow-sm border-top border-2 p-2 text-center fixed-bottom">
-        <p class="mb-0 footer text-light">© EARTHMOVER 2024</p>
-    </footer>
-
+        <footer class="bg-black shadow-sm border-top border-2 p-2 text-center fixed-bottom">
+            <p class="mb-0 footer text-light">© EARTHMOVER 2024</p>
+        </footer>
+    </div>
+    
     {{-- HIDE & SHOW PASSWORD --}}
     <script>
 		$(document).ready(function () {

@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="{{ asset('/assets/plugins/BoxIcons/css/boxicons.css') }}">
     <link rel="stylesheet" href="{{ asset('/assets/plugins/DataTable/datatable.css') }}">
     <link rel="stylesheet" href="{{ asset('/assets/plugins/Scrollbar/css/scrollbar.css') }}">
+    <link href="{{ asset('assets/plugins/Drag-And-Drop/dist/imageuploadify.min.css') }}" rel="stylesheet" />
 
     {{-- JS SCRIPT  --}}
     <script src="{{ asset('assets/js/script.js') }}"></script>
@@ -21,6 +22,7 @@
     <script src="{{ asset('assets/plugins/DataTable/datatables.js/') }}"></script>
     <script src="{{ asset('assets/plugins/JQuery/jquery.3.4.1.js') }}"></script>
     <script src="{{ asset('/assets/plugins/Scrollbar/js/scrollbar.js') }}"></script>
+    <script src="{{ asset('assets/plugins/Drag-And-Drop/dist/imageuploadify.min.js') }}"></script>
     @yield('plugins')
 </head>
 
