@@ -67,7 +67,7 @@
     </div>
     
     {{-- JS SCRIPT  --}}
-    <script src="{{ asset('assets/plugins/JQuery/jquery.3.7.1.js') }}"></script>
+    <script src="{{ asset('/assets/plugins/JQuery/jquery-3.7.1.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/Bootstrap/js/bootstrap.js') }}"></script>
     <script src="{{ asset('assets/js/particles.js') }}"></script>
     <script src="{{ asset('assets/js/script.js') }}"></script>

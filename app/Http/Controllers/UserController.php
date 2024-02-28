@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Role;
+
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -12,23 +14,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+        return view('Pages.Users.index', [
+            'title' => 'Users',
+            'users' => User::all(),
+            'roles' => Role::All()
+        ]);
     }
 
     /**

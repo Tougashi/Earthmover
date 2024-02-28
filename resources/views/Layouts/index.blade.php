@@ -12,17 +12,18 @@
     <link rel="stylesheet" href="{{ asset('/assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('/assets/plugins/Bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/assets/plugins/BoxIcons/css/boxicons.css') }}">
-    <link rel="stylesheet" href="{{ asset('/assets/plugins/DataTable/datatables.css') }}">
+    <link rel="stylesheet" href="{{ asset('/assets/plugins/datatable/css/dataTables.bootstrap5.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/assets/plugins/Scrollbar/css/scrollbar.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/plugins/Drag-And-Drop/dist/imageuploadify.min.css') }}"/>
-    <link rel="stylesheet" href="{{ asset('assets/plugins/sweetalert2/dist/sweetalert2.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('/assets/plugins/Drag-And-Drop/dist/imageuploadify.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('/assets/plugins/sweetalert2/dist/sweetalert2.min.css') }}"/>
 
     {{-- JS SCRIPT  --}}
     <script src="{{ asset('/assets/js/script.js') }}"></script>
+    <script src="{{ asset('/assets/plugins/JQuery/jquery-3.7.1.min.js') }}"></script>
+    <script src="{{ asset('/assets/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('/assets/plugins/Bootstrap/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('/assets/plugins/Bootstrap/js/popper.min.js') }}"></script>   
-    <script src="{{ asset('/assets/plugins/DataTable/datatables.js/') }}"></script>
-    <script src="{{ asset('/assets/plugins/JQuery/jquery-3.7.1.min.js') }}"></script>
+    <script src="{{ asset('/assets/plugins/datatable/js/dataTables.bootstrap5.min.js') }}"></script>
     <script src="{{ asset('/assets/plugins/Scrollbar/js/scrollbar.js') }}"></script>
     <script src="{{ asset('/assets/plugins/Drag-And-Drop/dist/imageuploadify.min.js') }}"></script>
     <script src="{{ asset('/assets/plugins/sweetalert2/dist/sweetalert2.js') }}"></script>  

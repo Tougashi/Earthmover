@@ -18,7 +18,7 @@
     <script src="{{ asset('assets/js/app.js') }}"></script>
     <script src="{{ asset('assets/js/script.js') }}"></script>
     <script src="{{ asset('assets/plugins/Bootstrap/js/bootstrap.js') }}"></script>
-    <script src="{{ asset('assets/plugins/JQuery/jquery.3.7.1.js') }}"></script>
+    <script src="{{ asset('assets/plugins/JQuery/jquery-3.7.1.js') }}"></script>
 </head>
 <body style="overflow: hidden">
     <div class="wrapper">

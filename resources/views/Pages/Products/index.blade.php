@@ -119,7 +119,6 @@
         <h2 class="text-center">Product does not exist</h2>
     </div>
     
-  
 </div>
 
 @endsection
