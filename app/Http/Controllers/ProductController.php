@@ -24,9 +24,9 @@ class ProductController extends Controller
         foreach ($products as $product) {
             $images[$product->id] = Image::where('productId', $product->id)->get();
         }
-
+        $title =  'Products';
         return view('Pages.Products.index', [
-            'title' => 'Products',
+            'title' => $title,
             'categories' => Category::all(),
             'products' => $products,
             'images' => $images,
@@ -39,8 +39,9 @@ class ProductController extends Controller
      */
     public function create()
     {
+        $title = 'Add Product';
         return view('Pages.Products.create', [
-            'title' => 'Add Product',
+            'title' => $title,
             'category' => Category::all(),
         ]); 
     }
@@ -91,9 +92,9 @@ class ProductController extends Controller
         $productId = decrypt($id);
         $products = Product::find($productId);
         $images = Image::where('productId', $productId)->get();
-
+        $title = 'Detail Product';
         return view('Pages.Products.show', [
-            'title' => 'Detail Product',
+            'title' => $title,
             'category' => Category::all(),
             'products' => $products,
             'images' => $images,
@@ -104,9 +105,18 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Product $product)
+    public function edit(Product $product, $id)
     {
-        //
+        $productId = decrypt($id);
+        $products = Product::find($productId);
+        $images = Image::where('productId', $productId)->get();
+        $title = 'Edit Product';
+        return view('Pages.Products.edit', [
+            'title' => $title,
+            'category' => Category::all(),
+            'products' => $products,
+            'images' => $images,
+        ]); 
     }
 
     /**
@@ -115,37 +125,42 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $product = Product::find(decrypt($id));
+        
         $request->validate([
-            'code' => 'required|string',
-            'name' => 'required|string',
+            'code' => 'string',
+            'name' => 'string',  
             'description' => 'nullable|string',
-            'stock' => 'required|integer',
-            'price' => 'required|numeric',
-            'type' => 'required|string|in:Male,Female,Unisex',
+            'stock' => 'integer',
+            'price' => 'numeric',
+            'type' => 'string|in:Male,Female,Unisex',
             'supplierId' => 'nullable|exists:suppliers,id',
-            'categoryId' => 'required|exists:categories,id',
+            'categoryId' => 'exists:categories,id',
         ]);
 
-        $product->update($request->all());
+        $requestData = $request->only(['code', 'name', 'description', 'stock', 'price', 'type', 'supplierId', 'categoryId']);
+        $product->update($requestData);
+    
         if ($request->hasFile('image')) {
-            foreach ($product->images as $image) {
-                Storage::delete($image->image);
-                $image->delete();
-            }
-            foreach ($request->file('image') as $value) {
+            // foreach ($product->images as $image) {
+            //     Storage::delete($image->image);
+            //     $image->delete();
+            // }
+            
+             foreach ($request->file('image') as $value) {
                 $originalName = $value->getClientOriginalName();
                 $imageName = time() . '_' . $originalName;
                 $path = 'images/products/' . $imageName;
                 $value->storeAs('/images/products/', $imageName);
-                
                 Image::create([
                     'image' => $path,
                     'productId' => $product->id,
                 ]);
             }
         }
+    
         return response()->json(['message' => 'Product has been updated successfully.']);
-    } 
+    }
+    
 
     /**
      * Remove the specified resource from storage.

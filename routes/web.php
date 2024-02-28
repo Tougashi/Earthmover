@@ -39,11 +39,10 @@ Route::middleware(['auth', 'checkrole:1'])->group(function(){
                 Route::get('/', 'index');
                 Route::get('/add', 'create');
                 Route::post('/add/store', 'store')->name('products.add');
-                Route::get('/{id}', 'show');
-                Route::get('/{id}/edit', 'edit')->name('products.edit');
-                Route::put('/{id}/update', 'update')->name('products.update');
+                Route::get('/{id}', 'show')->name('product.show');
+                Route::get('/{id}/edit', 'edit')->name('product.edit');
+                Route::put('/{id}/update', 'update')->name('product.update');
                 Route::get('/{id}/destroy', 'destroy')->name('product.destroy');
-                
             });
         });
     });

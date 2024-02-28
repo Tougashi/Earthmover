@@ -1,6 +1,5 @@
 @extends('Layouts.index')
 @section('content')
-
 <div class="container-fluid px-md-5">
     <div class="row">
         <div class="col-12">
@@ -9,7 +8,7 @@
                     <div class="row align-items-center">
                         <div class="col-lg-2 col-xl-2">
                             @if(auth()->check() && auth()->user()->roleId === 1)
-                            <a href="{{ url()->current(). '/add' }}" class="btn btn-dark mb-2"><i class='bx bxs-plus-circle'></i> New Product</a>
+                            <a href="{{ url()->current(). '/add' }}" class="btn btn-dark custom-rounded"><i class='bx bxs-plus-circle'></i> New Product</a>
                             @endif
                         </div> 
                         <div class="col-lg-9 col-xl-10 @if(auth()->check() && auth()->user()->roleId === 2) align-items-center @endif">
@@ -17,7 +16,7 @@
                               <div class="row row-cols-lg-auto g-2">
                                   <div class="col-lg">
                                       <div class="position-relative">
-                                          <input type="text" class="form-control ps-5 search-input" id="searchInput" placeholder="Search Product..."> 
+                                          <input type="text" class="form-control ps-5 search-inpu border-dark border custom-rounded" id="searchInput" placeholder="Search Product..."> 
                                           <span class="position-absolute product-show translate-middle-y"><i class="bx bx-search"></i></span>
                                       </div>
                                   </div>
@@ -86,13 +85,16 @@
                 </div>
                 @if(auth()->check() && auth()->user()->roleId === 1)
                 <div class="d-flex align-items-center mt-3 fs-6">
-                  <div class="cursor-pointer">
-                    <a href="" class="btn btn-dark custom-hover"><i class='bx bxs-edit'></i></a>
-                  </div>    
-                  <p class="mb-0 ms-auto">
-                    <a href="{{ route('product.destroy', encrypt($product->id)) }}" class="btn btn-dark custom-hover deleteProductBtn" data-id="{{ $product->id }}"><i class='bx bxs-trash'></i>
-                    </a>
-                  </p>
+                    <div class="cursor-pointer">
+                        <a href="{{ route('product.edit', encrypt($product->id)) }}" class="btn btn-dark custom-hover">
+                            <i class='bx bxs-edit'></i>
+                        </a>
+                    </div>                        
+                    <p class="mb-0 ms-auto">
+                        <a href="{{ route('product.destroy', encrypt($product->id)) }}" class="btn btn-dark custom-hover deleteProductBtn" data-id="{{ $product->id }}">
+                            <i class='bx bxs-trash'></i>
+                        </a>
+                    </p>
                 </div>
                 @else
                 <div class="d-flex align-items-center mt-3 fs-6">
@@ -116,6 +118,7 @@
     <div id="noProductMessage" class="row justify-content-center d-none">
         <h2 class="text-center">Product does not exist</h2>
     </div>
+    
   
 </div>
 

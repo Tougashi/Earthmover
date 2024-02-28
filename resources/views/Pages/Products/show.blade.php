@@ -1,23 +1,23 @@
 @extends('Layouts.index')
 @section('content')
+<x-back/>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card border border-dark mb-4"> <!-- Tambahkan class mb-4 untuk menambah margin bawah -->
+            <div class="card border mb-4 custom-rounded">
                 <div class="row g-0">
-                    <div class="col-md-4 border-end border-dark">
+                    <div class="col-md-4 border-end">
                         @if($images->isNotEmpty())
                         @foreach($images as $index => $image)
                             @if($index === 0)
-                                <img src="{{ asset('storage/' . $image->image) }}" class="card-img-top img-fluid mb-4" alt="{{ $products->name }}">
-                                <hr>
+                                <img src="{{ asset('storage/' . $image->image) }}" class="card-img-top img-fluid mb-6 mt-4 custom-rounded" alt="{{ $products->name }}">
+                                
                             @endif
                         @endforeach
-                    
                         <div class="row mb-3 row-cols-auto g-2 justify-content-center">
                             @foreach($images as $index => $image)
                                 @if($index !== 0)
-                                    <div class="col"><img src="{{ asset('storage/' . $image->image) }}" width="70" class="img-fluid cursor-pointer" alt=""></div>
+                                    <div class="col"><img src="{{ asset('storage/' . $image->image) }}" width="70" class="img-fluid cursor-pointer mt-5" alt=""></div>
                                 @endif
                             @endforeach
                         </div>

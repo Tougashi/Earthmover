@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{{ $title }}</title>
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/image/logo/logo.png') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/image/logo/logo.png') }}">
+    <title>{{ $title }} | Earthmover</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/image/logo/logo-white.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/image/logo/logo-white.png') }}">
     
     {{-- CSS STYLE  --}}
     <link rel="stylesheet" href="{{ asset('/assets/css/style.css') }}">
@@ -37,9 +37,9 @@
         <div class="container-fluid px-md-5">
             <div class="row align-items-center">
                 <div class="col-auto">
-                    <div class="text-center text">{{ $title }}</div> <!-- Title on the left -->
+                    <div class="text-center text">{{ $title }}</div>
                 </div>
-                <div class="col text-end"> <!-- Button on the right -->
+                <div class="col text-end">
                     @php
                         $currentPath = Request::path();
                     @endphp
