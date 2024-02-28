@@ -4,14 +4,28 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Product extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'code', 'image', 'name', 'price', 'stock', 'description', 'categoryId', 'supplierId'
+        'code', 'image', 'name', 'price', 'stock', 'description', 'type', 'categoryId', 'supplierId'
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function($product) {
+            $images = Image::where('productId', $product->id)->get();
+            foreach ($images as $item) {
+                Storage::disk()->delete($item->image);
+                $item->delete();
+            }
+        });
+    }
 
     public function Category()
     {
@@ -27,6 +41,6 @@ class Product extends Model
     }
     public function image()
     {
-        return $this->hasMany(Images::class);
+        return $this->hasMany(Image::class, 'productId', 'id');
     }
 }

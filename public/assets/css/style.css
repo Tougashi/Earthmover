@@ -5,6 +5,7 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "Poppins" , sans-serif;
+  
 }
 
 /* AUTH */
@@ -173,11 +174,8 @@
      transition: all 0.4s ease;
      background: #08070d;
    }
-   .sidebar li a:hover{
-     background: #FFF;
-   }
    .sidebar li a .links_name{
-     color: #fff;
+     color: #ffffff;
      font-size: 15px;
      font-weight: 400;
      white-space: nowrap;
@@ -192,7 +190,7 @@
    .sidebar li a:hover .links_name,
    .sidebar li a:hover i{
      transition: all 0.5s ease;
-     color: #09080f;
+     color: #6c6c6c;
    }
    .sidebar li i{
      height: 50px;
@@ -273,7 +271,6 @@
      width: calc(100% - 78px);
      transition: all 0.5s ease;
      z-index: 2;
-     text-align: center !important;
    }
    .home-section .btn.btn-dark {
     font-size: 12px;
@@ -289,8 +286,11 @@
      font-size: 25px;
      font-weight: 500;
      margin: 18px;
+     text-align: center !important;
     
    }
+
+
    @media (max-width: 420px) {
      .sidebar li .tooltip{
        display: none;
@@ -390,19 +390,23 @@
 
   .btn i {
     vertical-align: middle;
-    font-size: 1.3rem;
+    font-size: 1rem;
     margin-top: -1em;
     margin-bottom: -0.9em;
-    margin-right: 5px
+    /* margin-right: 5px */
   }
   .cursor-pointer {
-
     cursor: pointer
-  
   }
 
   .dropdown-toggle-nocaret:after {
     display: none
   }
+
+  .dropdown-item:hover {
+    background-color: #0b0d0f; /* Warna latar belakang saat hover */
+    color: #ffffff; /* Warna teks saat hover */
+}
+
 
   

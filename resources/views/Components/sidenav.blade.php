@@ -1,7 +1,7 @@
 <div class="sidebar">
   <div class="logo-details">
     <i class="icon"><img src="{{ asset('assets/image/Logo/logo-white.png') }}" alt="" width="30" class="img-fluid"></i>
-    <div class="logo_name">EARTHMOVER</div>
+    <div class="logo_name mt-2">EARTHMOVER</div>
     <i class="bx bx-menu" id="btn"></i>
   </div>
   <ul class="nav-list ps-0">

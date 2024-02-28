@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->integer('stock');
             $table->decimal('price', 10);
-            $table->enum('type', ['male', 'female', 'unisex']);
+            $table->enum('type', ['Male', 'Female', 'Unisex']);
             $table->unsignedBigInteger('supplierId')->nullable();
             $table->foreign('supplierId')->references('id')->on('suppliers')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('categoryId');

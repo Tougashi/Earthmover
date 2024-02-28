@@ -39,6 +39,11 @@ Route::middleware(['auth', 'checkrole:1'])->group(function(){
                 Route::get('/', 'index');
                 Route::get('/add', 'create');
                 Route::post('/add/store', 'store')->name('products.add');
+                Route::get('/{id}', 'show');
+                Route::get('/{id}/edit', 'edit')->name('products.edit');
+                Route::put('/{id}/update', 'update')->name('products.update');
+                Route::get('/{id}/destroy', 'destroy')->name('product.destroy');
+                
             });
         });
     });
@@ -50,8 +55,11 @@ Route::middleware(['auth', 'checkrole:2'])->group(function(){
         Route::controller(ViewController::class)->group(function(){
             Route::get('/dashboard', 'index');
         });
-        Route::controller(ProductController::class)->group(function(){
-            Route::get('/products', 'index');
+        Route::prefix('products')->group(function(){
+            Route::controller(ProductController::class)->group(function(){
+                Route::get('/', 'index');
+                Route::get('/{id}', 'show');
+            });
         });
     });
 });

@@ -12,13 +12,6 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/Bootstrap/css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/BoxIcons/css/boxicons.css') }}">
-
-    {{-- JS SCRIPT  --}}
-    <script src="{{ asset('assets/js/particles.js') }}"></script>
-    <script src="{{ asset('assets/js/app.js') }}"></script>
-    <script src="{{ asset('assets/js/script.js') }}"></script>
-    <script src="{{ asset('assets/plugins/Bootstrap/js/bootstrap.js') }}"></script>
-    <script src="{{ asset('assets/plugins/JQuery/jquery.3.4.1.js') }}"></script>
 </head>
 <body style="overflow: hidden">
     <div class="wrapper">
@@ -73,24 +66,28 @@
         </footer>
     </div>
     
-    {{-- HIDE & SHOW PASSWORD --}}
-    <script>
-		$(document).ready(function () {
-			$("#showHide a").on('click', function (event) {
-				event.preventDefault();
-				if ($('#showHide input').attr("type") == "text") {
-					$('#showHide input').attr('type', 'password');
-					$('#showHide i').addClass("bx-hide");
-					$('#showHide i').removeClass("bx-show");
-				} else if ($('#showHide input').attr("type") == "password") {
-					$('#showHide input').attr('type', 'text');
-					$('#showHide i').removeClass("bx-hide");
-					$('#showHide i').addClass("bx-show");
-				}
-			});
-		});
-	</script>
+    {{-- JS SCRIPT  --}}
+    <script src="{{ asset('assets/plugins/JQuery/jquery.3.7.1.js') }}"></script>
+    <script src="{{ asset('assets/plugins/Bootstrap/js/bootstrap.js') }}"></script>
     <script src="{{ asset('assets/js/particles.js') }}"></script>
     <script src="{{ asset('assets/js/script.js') }}"></script>
- </body>
- </html>
+
+    {{-- HIDE & SHOW PASSWORD --}}
+    <script>
+        $(document).ready(function () {
+            $("#showHide a").on('click', function (event) {
+                event.preventDefault();
+                if ($('#showHide input').attr("type") == "text") {
+                    $('#showHide input').attr('type', 'password');
+                    $('#showHide i').addClass("bx-hide");
+                    $('#showHide i').removeClass("bx-show");
+                } else if ($('#showHide input').attr("type") == "password") {
+                    $('#showHide input').attr('type', 'text');
+                    $('#showHide i').removeClass("bx-hide");
+                    $('#showHide i').addClass("bx-show");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
