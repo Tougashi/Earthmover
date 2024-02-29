@@ -55,6 +55,39 @@
         @include('sweetalert::alert')
     </section>
     @stack('scripts')
+    <script>
+        //SEARCH JS
+    function searchProducts() {
+        var input, filter, productCards, productName, i;
+        input = document.getElementById('searchInput');
+        filter = input.value.toUpperCase();
+        productCards = document.querySelectorAll('.product-card');
+        var noProductMessage = document.getElementById('noProductMessage');
+        var productContainer = document.getElementById('productContainer');
+        var hasProducts = false;
+
+        for (i = 0; i < productCards.length; i++) {
+            productName = productCards[i].querySelector('.product-title').textContent.toUpperCase();
+            if (productName.indexOf(filter) > -1) {
+                productCards[i].style.display = "";
+                hasProducts = true;
+            } else {
+                productCards[i].style.display = "none";
+            }
+        }
+
+        if (!hasProducts) {
+            noProductMessage.classList.remove('d-none');
+            productContainer.classList.add('d-none');
+        } else {
+            noProductMessage.classList.add('d-none');
+            productContainer.classList.remove('d-none');
+        }
+    }
+    document.getElementById('searchInput').addEventListener('input', function() {
+        searchProducts();
+    });
+    </script>
     
 </body>
 </html>

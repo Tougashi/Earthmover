@@ -11,9 +11,7 @@ class Image extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'image', 'productId'
-    ];
+    protected $guarded = ['id'];
 
     // protected static function boot()
     // {

@@ -9,9 +9,7 @@ class Supplier extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'name', 'description'
-    ];
+    protected $guarded = ['id'];
 
     public function Product()
     {

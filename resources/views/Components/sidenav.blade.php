@@ -28,7 +28,7 @@
       </a>
       <span class="tooltip">Products</span>
     </li>
-    <li>
+    {{-- <li>
       @if(auth()->check() && auth()->user()->roleId === 1)
       <a href="{{ url('admin/customers') }}">
       @endif
@@ -39,7 +39,7 @@
         <span class="links_name">Customers</span>
       </a>
       <span class="tooltip">Customers</span>
-    </li>
+    </li> --}}
     <li>
       @if(auth()->check() && auth()->user()->roleId === 1)
       <a href="{{ url('admin/orders') }}">
@@ -94,15 +94,19 @@
               $user = auth()->user();
               $profileImage = $user->image ? asset('storage/' . $user->image) : asset('assets/image/Icon/profile-icon.jpg');
           @endphp
-          <img src="{{ $profileImage }}" alt="profileImg" />
+          <img src="{{ $profileImage }}" alt="profileImg" class="img-fluid rounded-circle bg-dark p-1" />
           <div class="name_job">
               @if (auth()->check())
                   <div class="name">{{ $user->username }}</div>
-                  <div class="job">{{ $user->role->role }}</div>
+                  <div class="job badge
+                  @if (auth()->user()->role && auth()->user()->role->role === 'Admin') bg-primary
+                  @elseif (auth()->user()->role && auth()->user()->role->role === 'Cashier') bg-success
+                  @elseif (auth()->user()->role && auth()->user()->role->role === 'Customer') bg-secondary
+                  @endif">{{ $user->role->role }}</div>
               @endif
           </div>
       </div>
-      <a href=""><i class="bx bx-cog" id="setting"></i></a>
+      <a href="/profile"><i class="bx bx-cog" id="setting"></i></a>
       <a href="{{ route('signout') }}"><i class="bx bx-log-out" id="log_out"></i></a>
   </li>
   

@@ -26,6 +26,9 @@ Route::middleware(['auth'])->group(function(){
         Route::controller(AuthController::class)->group(function(){
             Route::get('/signout', 'signout')->name('signout');
         });
+        Route::controller(UserController::class)->group(function(){
+            Route::get('/profile', 'edit')->name('user.profile');
+        });
 });
 
 // Route Admin 
@@ -50,8 +53,6 @@ Route::middleware(['auth', 'checkrole:1'])->group(function(){
                 Route::get('/', 'index');
                 Route::get('/add', 'create');
                 Route::post('/add/store', 'store')->name('users.add');
-                Route::get('/{id}', 'show')->name('user.show');
-                Route::get('/{id}/edit', 'edit')->name('user.edit');
                 Route::put('/{id}/update', 'update')->name('user.update');
                 Route::get('/{id}/destroy', 'destroy')->name('user.destroy');
             });

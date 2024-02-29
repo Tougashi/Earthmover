@@ -165,12 +165,12 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($encryptedId)
+    public function destroy($id)
     {
-        $id = decrypt($encryptedId);
+        // $id = decrypt($encryptedId);
         
-        $product = Product::findOrFail($id);
-        $product->delete();
+        $product = Product::find($id);
+        Product::destroy(decrypt($id));
     
         return response()->json(['message' => 'Product and related images have been deleted successfully.']);
     }

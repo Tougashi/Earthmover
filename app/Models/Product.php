@@ -10,10 +10,7 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'code', 'image', 'name', 'price', 'stock', 'description', 'type', 'categoryId', 'supplierId'
-    ];
-
+    protected $guarded = ['id'];
     protected static function boot()
     {
         parent::boot();

@@ -27,25 +27,25 @@ class DatabaseSeeder extends Seeder
             'created_at' => Carbon::now()
         ]);
         Role::create([
-            'role' => 'Customers',
+            'role' => 'Customer',
             'created_at' => Carbon::now()
         ]);
 
         User::factory()->create([
             'username' => 'Adryan',
-            'email' => 'admin@example.com',
+            'email' => 'adryanowh@gmail.com',
             'password' => Bcrypt('password'),
             'roleId' => 1
         ]);
         User::factory()->create([
             'username' => 'Claire',
-            'email' => 'cashier@example.com',
+            'email' => 'clairecottrill@gmail.com',
             'password' => Bcrypt('password'),
             'roleId' => 2
         ]);
         User::factory()->create([
             'username' => 'Guest',
-            'email' => 'customers@example.com',
+            'email' => 'customer@gmail.com',
             'password' => Bcrypt('password'),
             'roleId' => 3
         ]);

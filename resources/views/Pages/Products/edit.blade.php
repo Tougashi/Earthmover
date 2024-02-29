@@ -67,7 +67,7 @@
                                             @foreach ($category as $item)    
                                             <option value="{{ $item->id }}">{{ $item->name }}</option>
                                             @endforeach
-                                        </select>
+                                        </select> 
                                     </div>
                                     <div class="col-12">
                                         <label for="inputType" class="form-label">Type</label>
@@ -104,27 +104,6 @@
     $(document).ready(function () {
         $('#submitBtn').click(function (e) {
             e.preventDefault();
-
-            // var productName = $('#inputProductName').val().trim();
-            // var productDescription = $('#inputProductDescription').val().trim();
-            // var category = $('#inputCategory').val().trim();
-            // var type = $('#inputType').val().trim();
-            // var price = $('#inputPrice').val().trim();
-            // var stock = $('#inputStock').val().trim();
-            // var code = $('#inputCode').val().trim();
-
-            // // Check if any of the required fields are empty
-            // if (!productName || !productDescription || !code || !price || !stock || !category || !type ) {
-            //     Swal.fire({
-            //         title: 'Warning',
-            //         text: 'Please fill in all fields except Image',
-            //         icon: 'warning',
-            //         confirmButtonText: 'OK',
-            //         allowOutsideClick: false
-            //     });
-            //     return;
-            // }
-
             $.ajax({
                 url: "{{ route('product.update', encrypt($products->id) ) }}",
                 type: "POST",
@@ -138,7 +117,7 @@
                         text: response.message,
                         toast: true,
                         position: 'top-end',
-                        showConfirmButton: false,
+                        showConfirmButton: false, 
                         timer: 3000 
                     });
                     window.location.reload();

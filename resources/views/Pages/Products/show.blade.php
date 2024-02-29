@@ -3,31 +3,33 @@
 <x-back/>
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card border mb-4 custom-rounded">
+        <div class="col-md-10">
+            <div class="card border mb-4 shadow custom-rounded">
                 <div class="row g-0">
                     <div class="col-md-4 border-end">
                         @if($images->isNotEmpty())
-                        @foreach($images as $index => $image)
-                            @if($index === 0)
-                                <img src="{{ asset('storage/' . $image->image) }}" class="card-img-top img-fluid mb-6 mt-4 custom-rounded" alt="{{ $products->name }}">
-                                
-                            @endif
-                        @endforeach
-                        <div class="row mb-3 row-cols-auto g-2 justify-content-center">
                             @foreach($images as $index => $image)
-                                @if($index !== 0)
-                                    <div class="col"><img src="{{ asset('storage/' . $image->image) }}" width="70" class="img-fluid cursor-pointer mt-5" alt=""></div>
+                                @if($index === 0)
+                                    <img id="mainImage" src="{{ asset('storage/' . $image->image) }}" class="card-img-top img-fluid  mt-4 custom-rounded zoomable" alt="{{ $products->name }}">
                                 @endif
                             @endforeach
-                        </div>
+                            <hr>
+                            <div class="row mb-3 row-cols-auto g-2 justify-content-center ">
+                                @foreach($images as $index => $image)
+                                    @if($index !== 0)
+                                        <div class="col">
+                                            <img src="{{ asset('storage/' . $image->image) }}" width="70" class="img-fluid cursor-pointer mt-2 border border-dark border-2 custom-rounded" alt="" onclick="changeMainImage(this)">
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </div>
                         @else
                             <img src="{{ asset('assets/image/Icon/noproduct.jpg') }}" class="card-img-top img-fluid custom-rounded" alt="No Photos">
                         @endif
-                    </div>
+                    </div>                            
                     <div class="col-md-8 mt-4 text-start">
                         <div class="card-body">
-                            <h4 class="card-title text-start">{{ $products->name }}</h4>
+                            <h2 class="card-title text-start">{{ $products->name }}</h2>
                             <div class="d-flex gap-3 py-3">
                                 <div class="cursor-pointer">
                                     <i class='bx bxs-star text-warning'></i>
@@ -49,11 +51,13 @@
                                 <dd class="col-sm-5">{{ $products->code }}</dd>
                                 <dt class="col-sm-4">Color :</dt>
                                 <dd class="col-sm-5">Brown</dd>
+                                <dt class="col-sm-4">Stock :</dt>
+                                <dd class="col-sm-5">{{ $products->stock }}</dd>
                                 <dt class="col-sm-4">Delivery :</dt>
                                 <dd class="col-sm-5">World Wide</dd>
                             </dl>
-                            <hr>
-                            <div class="row row-cols-auto row-cols-1 row-cols-md-3 align-items-center">
+                            {{-- <hr> --}}
+                            {{-- <div class="row row-cols-auto row-cols-1 row-cols-md-3 align-items-center">
                                 <div class="col">
                                     <label class="form-label">Quantity</label>
                                     <div class="input-group input-spinner">
@@ -84,7 +88,7 @@
                                 <a href="#" class="btn btn-dark btn-sm">Buy Now</a>
                                 <a href="#" class="btn btn-outline-dark btn-sm"><span class="">Add to cart</span> <i class='bx bxs-cart-alt'></i></a>
                             </div>
-                            
+                             --}}
                         </div>
                     </div>
                 </div>
@@ -106,6 +110,16 @@
             quantityInput.value = parseInt(quantityInput.value) - 1;
         }
     });
+
+    function changeMainImage(clickedImage) {
+        var newMainImageSrc = clickedImage.src;
+        var mainImage = document.getElementById('mainImage');
+        var currentMainImageSrc = mainImage.src;
+        mainImage.src = newMainImageSrc;
+        clickedImage.src = currentMainImageSrc;
+    }
+
+
     </script>
 @endpush
 

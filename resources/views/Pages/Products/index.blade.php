@@ -3,7 +3,7 @@
 <div class="container-fluid px-md-5">
     <div class="row">
         <div class="col-12">
-            <div class="card mb-3 custom-rounded">
+            <div class="card shadow mb-3 custom-rounded">
                 <div class="card-body">
                     <div class="row align-items-center">
                         <div class="col-lg-2 col-xl-2">
@@ -58,20 +58,19 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> 
     </div>
     
     <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5 product-grid" id="productContainer">
       @foreach ($products as $product)
         <div class="col product-card text-center">
           <a href="{{ url()->current() . '/'. encrypt($product->id) }}" class="text-dark text-decoration-none">
-            <div class="card custom-rounded cursor-pointer mb-4">
+            <div class="card custom-rounded shadow cursor-pointer mb-4">
               @if(!empty($images[$product->id]) && $images[$product->id]->isNotEmpty())
                   <img src="{{ asset('storage/' . $images[$product->id]->first()->image) }}" class="card-img-top img-fluid custom-rounded" height="70" width="auto" alt="{{ $product->name }}">
               @else
                   <img src="{{ asset('assets/image/Icon/noproduct.jpg') }}" class="card-img-top img-fluid custom-rounded" height="70" width="auto"  alt="{{ $product->name }}">
               @endif
-
               <div class="card-body product">
                 <h6 class="card-title product-title">{{ $product->name }}</h6>
                 <p class="card-text mb-0 mt-0 product-type">{{ $product->type }}</p>
@@ -86,14 +85,14 @@
                 @if(auth()->check() && auth()->user()->roleId === 1)
                 <div class="d-flex align-items-center mt-3 fs-6">
                     <div class="cursor-pointer">
-                        <a href="{{ route('product.edit', encrypt($product->id)) }}" class="btn btn-dark custom-hover">
+                        <a href="{{ route('product.edit', encrypt($product->id)) }}" class="btn btn-outline-secondary btn-dark text-white">
                             <i class='bx bxs-edit'></i>
                         </a>
                     </div>                        
                     <p class="mb-0 ms-auto">
-                        <a href="{{ route('product.destroy', encrypt($product->id)) }}" class="btn btn-dark custom-hover deleteProductBtn" data-id="{{ $product->id }}">
+                        <a href="{{ route('product.destroy', encrypt($product->id)) }}" class="btn btn-outline-secondary btn-dark text-white deleteProductBtn" data-id="{{ encrypt($product->id) }}">
                             <i class='bx bxs-trash'></i>
-                        </a>
+                        </a>                                               
                     </p>
                 </div>
                 @else
@@ -125,39 +124,6 @@
 
 @push('scripts')
 <script>
-
-    //SEARCH JS
-    function searchProducts() {
-        var input, filter, productCards, productName, i;
-        input = document.getElementById('searchInput');
-        filter = input.value.toUpperCase();
-        productCards = document.querySelectorAll('.product-card');
-        var noProductMessage = document.getElementById('noProductMessage');
-        var productContainer = document.getElementById('productContainer');
-        var hasProducts = false;
-
-        for (i = 0; i < productCards.length; i++) {
-            productName = productCards[i].querySelector('.product-title').textContent.toUpperCase();
-            if (productName.indexOf(filter) > -1) {
-                productCards[i].style.display = "";
-                hasProducts = true;
-            } else {
-                productCards[i].style.display = "none";
-            }
-        }
-
-        if (!hasProducts) {
-            noProductMessage.classList.remove('d-none');
-            productContainer.classList.add('d-none');
-        } else {
-            noProductMessage.classList.add('d-none');
-            productContainer.classList.remove('d-none');
-        }
-    }
-    document.getElementById('searchInput').addEventListener('input', function() {
-        searchProducts();
-    });
-
     
     // Filter
     document.addEventListener('DOMContentLoaded', function() {
@@ -236,7 +202,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: "{{ route('product.destroy', encrypt($product->id)) }}",
+                            url: "{{ route('product.destroy', ':id') }}".replace(':id', productId),
                             type: "get",
                             data: {
                                 _token: "{{ csrf_token() }}"
@@ -252,7 +218,6 @@
                                     timer: 3000 
                                 });
                                 window.location.reload();
-                                $(this).closest('.product-card').remove();
                             },
                             error: function (xhr, status, error) {
                                 console.error(xhr.responseText);

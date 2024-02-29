@@ -1,79 +1,232 @@
 @extends('Layouts.index')
 @section('content')
-
 <div class="container-fluid px-md-5">
     <div class="row">
         <div class="col-12">
-            <div class="card mb-3 custom-rounded">
+            <div class="card shadow mb-3 custom-rounded">
                 <div class="card-body">
-                    <div class="border border-2 border-dark custom-rounded p-4">
-                        <div class="table-responsive">
-                            <table id="example" class="table table-striped table-bordered" style="width:100%">
-                                <thead style="background-color: rgb(19, 16, 16); color:white">
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Email</th>
-                                        <th>Username</th>
-                                        <th>Role</th>
-                                        <th>Created At</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($users as $item)
-                                    <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item->email }}</td>
-                                        <td>{{ $item->username }}</td>
-                                        <td>
-                                            <div class="badge
-                                                @if ($item->role && $item->role->role === 'Admin') bg-primary
-                                                @elseif ($item->role && $item->role->role === 'Cashier') bg-success
-                                                @elseif ($item->role && $item->role->role === 'Customers') bg-secondary
-                                                @endif
-                                                text-uppercase fs-7">
-                                                {{-- @if ($item->role && $item->role->role === 'Admin') <i class='bx bx-badge-check me-1'></i>
-                                                @elseif ($item->role && $item->role->role === 'Cashier')<i class='bx bx-dollar-circle me-1'></i>
-                                                @elseif ($item->role && $item->role->role === 'Customers')<i class='bx bx-user me-1'></i>
-                                                @endif --}}
-                                                {{ $item->role->role }}
-                                            </div>
-                                        </td>
-                                        <td>{{ $item->created_at->formatLocalized('%d %B %Y')  }}</td>
-                                        <td>
-                                            <div class="d-flex order-actions gap-2">
-                                                <a href="" class="btn btn-dark custom-hover">
-                                                    <i class='bx bxs-edit'></i>
-                                                </a>
-                                                <a href="" class="btn btn-dark custom-hover deleteProductBtn">
-                                                    <i class='bx bxs-trash'></i>
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            
-                            </table>
-                        </div>
+                    <div class="row align-items-center">
+                        <form class="">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="position-relative">
+                                        <input type="text" class="form-control ps-5 search-input border-dark border custom-rounded" id="searchInput" placeholder="Search User..."> 
+                                        <span class="position-absolute product-show translate-middle-y"><i class="bx bx-search"></i></span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-8">
+                                    <div class="btn-group float-end" role="group" aria-label="Button group with nested dropdown">
+                                        <button type="button" class="btn btn-white">Sort By</button>
+                                        <div class="btn-group" role="group">
+                                            <button id="sortByDropdown" type="button" class="btn btn-white dropdown-toggle dropdown-toggle-nocaret px-1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class='bx bx-slider'></i>
+                                            </button>
+                                            <ul class="dropdown-menu custom-rounded cursor-pointer" aria-labelledby="sortByDropdown">
+                                                <li><p class="dropdown-item sort-item" data-sort="">All</p></li>
+                                                <li><p class="dropdown-item sort-item" data-sort="admin">Admin</p></li>
+                                                <li><p class="dropdown-item sort-item" data-sort="cashier">Cashier</p></li>
+                                                <li><p class="dropdown-item sort-item" data-sort="customer">Customer</p></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>                                                                                                          
+                            </div>
+                        </form>                                                                   
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5 product-grid">
+        @foreach ($users as $item)
+        <div class="col product-card">
+            <div class="card mb-3 shadow custom-rounded">
+                <div class="card-body text-center">
+                    <div class="p-6 custom-rounded radius-15">
+                        <img src="{{ asset('assets/image/Icon/profile-icon.jpg') }}" width="110" height="110" class="rounded-circle shadow img-fluid border border-2 border-dark" alt="">
+                        <p class="mb-2 mt-5 fw-bold product-title">{{ $item->email }}</p>
+                        <p class="mb-3 product-title">{{ $item->username }}</p>
+                        <p class="mb-3 badge product-type
+                            @if ($item->role && $item->role->role === 'Admin') bg-primary
+                            @elseif ($item->role && $item->role->role === 'Cashier') bg-success
+                            @elseif ($item->role && $item->role->role === 'Customer') bg-secondary
+                            @endif
+                            text-uppercase fs-7">{{ $item->role->role }}</p>
+                        <div class="gap-2">
+                            <a href="javascript:void(0);" class="btn btn-outline-secondary btn-dark text-white editUserBtn" data-id="{{ encrypt($item->id) }}" data-role="{{ $item->role->id }}" data-bs-toggle="modal" data-bs-target="#editRoleModal">
+                                <i class="bx bx-edit"></i>
+                            </a>                                                                                
+                            <a href="{{ route('user.destroy', encrypt($item->id) ) }}" class="btn btn-outline-secondary btn-dark text-white deleteUserBtn" data-id="{{ encrypt($item->id) }}"><i class="bx bx-trash"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endforeach
+    </div>
+    
+    <!-- Modal -->
+   <form id="userForm" method="POST" enctype="multipart/form-data">
+    @csrf
+    @method('PUT')
+        <div class="modal fade" id="editRoleModal" tabindex="1" aria-labelledby="editRoleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editRoleModalLabel">Edit Role</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="editRoleForm">
+                            <div class="mb-3">
+                                <label for="newRole" class="form-label">Role</label>
+                                <select class="form-select" id="roleId" name="roleId">
+                                    <option selected disabled>Select Role</option>
+                                    @foreach ($roles as $role)
+                                    <option value="{{ $role->id }}">{{ $role->role }}</option>
+                                    @endforeach
+                                </select>                                
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="submitBtn" class="btn btn-dark custom-rounded">Save Changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div id="noProductMessage" class="row justify-content-center d-none">
+        <h2 class="text-center">User does not exist</h2>
+    </div>
+    
 </div>
+
 
 @push('scripts')
     <script>
-       $(document).ready(function() {
-			var table = $('#example').DataTable( {
-				lengthChange: true,
-				// buttons: [ 'copy', 'excel', 'pdf', 'print']
-			} );
-		 
-			// table.buttons().container()
-			// 	.appendTo( '#example_wrapper .col-md-6:eq(0)' );
-		} );
+        // Filter
+        document.addEventListener('DOMContentLoaded', function() {
+            const sortItems = document.querySelectorAll('.sort-item');
+            const noProductMessage = document.getElementById('noProductMessage');
+
+            sortItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const sortFilter = this.dataset.sort;
+                    const categoryFilter = getCurrentCategoryFilter();
+                    filterProducts(sortFilter, categoryFilter);
+                });
+            });
+
+            function filterProducts(sortFilter, categoryFilter) {
+                const products = document.querySelectorAll('.product-card');
+                let hasProduct = false;
+
+                products.forEach(product => {
+                    const type = product.querySelector('.product-type').innerText.trim();
+
+                    const isTypeMatched = sortFilter === '' || type.toLowerCase() === sortFilter.toLowerCase();
+                    
+                    if (isTypeMatched) {
+                        product.style.display = 'block';
+                        hasProduct = true;
+                    } else {
+                        product.style.display = 'none';
+                    }
+                });
+
+                if (!hasProduct) {
+                    noProductMessage.classList.remove('d-none');
+                } else {
+                    noProductMessage.classList.add('d-none');
+                }
+            }
+
+            function getCurrentSortFilter() {
+                const activeSortItem = document.querySelector('.sort-item.active');
+                return activeSortItem ? activeSortItem.dataset.sort : '';
+            }
+
+            function getCurrentCategoryFilter() {
+                const activeCategoryItem = document.querySelector('.category-item.active');
+                return activeCategoryItem ? activeCategoryItem.dataset.category : '';
+            }
+        });
+
+        @if($users->isNotEmpty())
+        $(document).ready(function () {
+            $('.deleteUserBtn').click(function (e) {
+                e.preventDefault();
+                var UserId = $(this).data('id');
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "{{ route('user.destroy', ':id') }}".replace(':id', UserId),
+                            type: "get",
+                            data: {
+                                _token: "{{ csrf_token() }}"
+                            },
+                            success: function (response) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Success',
+                                    text: response.message,
+                                    toast: true,
+                                    position: 'top-end',
+                                    showConfirmButton: false,
+                                    timer: 3000 
+                                });
+                                window.location.reload();
+                            },
+                            error: function (xhr, status, error) {
+                                console.error(xhr.responseText);
+                            }
+                        });
+                    }
+                });
+            });
+        });
+
+        $(document).ready(function () {
+            $('#submitBtn').click(function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: "{{ route('user.update', encrypt($item->id) ) }}",
+                    type: "POST",
+                    data: new FormData($('#userForm')[0]),
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: response.message,
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false, 
+                            timer: 3000 
+                        });
+                        window.location.reload();
+                        loadUsers(); 
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+        });
+
+    @endif 
     </script>
 @endpush
 

@@ -8,9 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Transaction extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'status', 'userId'
-    ];
+    protected $guarded = ['id'];
 
     public function orders()
     {

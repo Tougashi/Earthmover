@@ -404,8 +404,19 @@
   }
 
   .dropdown-item:hover {
-    background-color: #0b0d0f; /* Warna latar belakang saat hover */
-    color: #ffffff; /* Warna teks saat hover */
+    background-color: #0b0d0f; 
+    color: #ffffff; 
+}
+
+
+.zoomable {
+  cursor: zoom-in; 
+  transition: transform 0.2s ease;
+  transform-origin: center center;
+}
+
+.zoomable:hover {
+  transform: scale(1.5); 
 }
 
 
