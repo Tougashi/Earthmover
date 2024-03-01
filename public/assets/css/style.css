@@ -419,6 +419,9 @@
   transform: scale(1.5); 
 }
 
+.small-font {
+  font-size: small;
+}
 
 
 

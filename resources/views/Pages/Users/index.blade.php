@@ -44,9 +44,13 @@
             <div class="card mb-3 shadow custom-rounded">
                 <div class="card-body text-center">
                     <div class="p-6 custom-rounded radius-15">
-                        <img src="{{ asset('assets/image/Icon/profile-icon.jpg') }}" width="110" height="110" class="rounded-circle shadow img-fluid border border-2 border-dark" alt="">
+                        @php
+                        $profileImage = $item->image ? asset('storage/' . $item->image) : asset('assets/image/Icon/profile-icon.jpg');
+                        @endphp
+                        <img src="{{ $profileImage }}" alt="profileImg" class="img-fluid rounded-circle bg-dark p-1" width="110" />
                         <p class="mb-2 mt-5 fw-bold product-title">{{ $item->email }}</p>
                         <p class="mb-3 product-title">{{ $item->username }}</p>
+                        <p class="mb-3 small-font text-muted">Created : {{ $item->created_at->formatLocalized('%d %B %Y') }}</p>
                         <p class="mb-3 badge product-type
                             @if ($item->role && $item->role->role === 'Admin') bg-primary
                             @elseif ($item->role && $item->role->role === 'Cashier') bg-success
