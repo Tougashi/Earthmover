@@ -98,10 +98,10 @@
           <div class="name_job">
               @if (auth()->check())
                   <div class="name">{{ $user->username }}</div>
-                  <div class="job badge
-                  @if (auth()->user()->role && auth()->user()->role->role === 'Admin') bg-primary
-                  @elseif (auth()->user()->role && auth()->user()->role->role === 'Cashier') bg-success
-                  @elseif (auth()->user()->role && auth()->user()->role->role === 'Customer') bg-secondary
+                  <div class="job
+                  @if (auth()->user()->role && auth()->user()->role->role === 'Admin') text-primary
+                  @elseif (auth()->user()->role && auth()->user()->role->role === 'Cashier') text-success
+                  @elseif (auth()->user()->role && auth()->user()->role->role === 'Customer') text-secondary
                   @endif">{{ $user->role->role }}</div>
               @endif
           </div>

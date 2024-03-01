@@ -71,24 +71,22 @@
     @csrf
     @method('PUT')
         <div class="modal fade" id="editRoleModal" tabindex="1" aria-labelledby="editRoleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-dialog modal-dialog-scrollable modal-dialog-sm ms-auto custom-rounded">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="editRoleModalLabel">Edit Role</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="editRoleForm">
-                            <div class="mb-3">
-                                <label for="newRole" class="form-label">Role</label>
-                                <select class="form-select" id="roleId" name="roleId">
-                                    <option selected disabled>Select Role</option>
-                                    @foreach ($roles as $role)
-                                    <option value="{{ $role->id }}">{{ $role->role }}</option>
-                                    @endforeach
-                                </select>                                
-                            </div>
-                        </form>
+                        <div class="mb-3">
+                            <label for="newRole" class="form-label">Role</label>
+                            <select class="form-select border-dark border-2" id="roleId" name="roleId">
+                                <option selected disabled>Select Role</option>
+                                @foreach ($roles as $role)
+                                <option value="{{ $role->id }}">{{ $role->role }}</option>
+                                @endforeach
+                            </select>                                
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" id="submitBtn" class="btn btn-dark custom-rounded">Save Changes</button>
@@ -201,7 +199,7 @@
             $('#submitBtn').click(function (e) {
                 e.preventDefault();
                 $.ajax({
-                    url: "{{ route('user.update', encrypt($item->id) ) }}",
+                    url: "{{ route('role.update', encrypt($item->id) ) }}",
                     type: "POST",
                     data: new FormData($('#userForm')[0]),
                     contentType: false,

@@ -25,14 +25,6 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
     public function edit()
@@ -50,37 +42,41 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $rules = [
-            'roleId' => 'required|exists:roles,id',
-            'email' => 'email:dns|email:rfc|unique:users,email,'.$id,
-            'username' => 'max:255|unique:users,username,'.$id,
-            'password' => 'nullable|min:8|max:255|customPassword:'.$id,
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
-        ];
-
-        $validator = Validator::make($request->all(), $rules);
-
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 422);
-        }
-
         $user = User::findOrFail(decrypt($id));
+        $request->validate([
+            'email' => 'required|email:dns|email:rfc|unique:users,email,'.$user->id,
+            'username' => 'required|max:255|unique:users,username,'.$user->id,
+            'password' => 'nullable|min:8|max:255|customPassword:'.$user->id,
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif'
+        ]);
+    
         $userData = $request->only(['email', 'username', 'password']);
-        $userData['roleId'] = $request->roleId;
 
-        if ($request->hasFile('image')) {
-            if ($user->image) {
-                Storage::disk('public')->delete($user->image);
-            }
+        if ($request->hasFile('image')) {   
             $image = $request->file('image');
-            $fileName = time() . '_' . $image->getClientOriginalName();
-            $filePath = $image->storeAs('images/profile', $fileName, 'public');
-            $userData['image'] = $filePath;
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $imagePath = $image->storeAs('images/profile', $imageName);
+            if ($user->image) {
+                Storage::delete($user->image);
+            }
+            $userData['image'] = $imagePath;
         }
 
         $user->update($userData);
+    
+        return response()->json(['message' => 'User profile has been updated successfully.']);
+    }
 
-        return response()->json(['message' => 'User has been updated successfully.']);
+    public function updateRole(Request $request, $id)
+    {
+        $user = User::findOrFail(decrypt($id));
+        $request->validate([
+            'roleId' => 'required|exists:roles,id',
+        ]);
+
+        $user->update(['roleId' => $request->roleId]);
+
+        return response()->json(['message' => 'User role has been updated successfully.']);
     }
 
     /**

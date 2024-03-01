@@ -27,24 +27,26 @@
                                         <img src="/assets/image/logo/logo-text.png" alt="Kantinku" width="300" class="rounded mx-auto d-block mb-2">
                                     </div>
                                     <div class="form-body">
-                                        @if (Session::has('success'))
-                                            <div class="alert alert-success" role="alert">
-                                                {{ Session::get('success') }}
-                                            </div>
-                                        @endif
                                         <form class="row g-3" action="{{ route('auth') }}" method="POST">
                                             @csrf
                                             <div class="col-12">
                                                 <label for="Username" class="form-label">Username</label>
-                                                <input type="text" class="form-control border border-dark" id="username" placeholder="John Doe" name="username">
+                                                <input type="text" class="form-control border border-dark @error('username') is-invalid @enderror" id="username" placeholder="John Doe" name="username">
+                                                @error('username')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
                                             </div>
                                             <div class="col-12">
                                                 <label for="inputChoosePassword" class="form-label">Password</label>
                                                 <div class="input-group" id="showHide">
-                                                    <input type="password" class="form-control border border-dark" id="password" placeholder="********" name="password">
+                                                    <input type="password" class="form-control border border-dark @error('password') is-invalid @enderror" id="password" placeholder="********" name="password">
                                                     <a href="#" class="input-group-text bg-transparent border border-dark"><i class='bx bx-hide'></i></a>
+                                                    @error('password')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
                                                 </div>
                                             </div>
+                                            
                                             <div class="col-md-6"><a href="#" class="text-black">Forgot password?</a></div>
                                             <div class="col-md-6 text-end"><a href="/signup" class="text-black">Don't have an account?</a></div>
                                             <div class="col-12">

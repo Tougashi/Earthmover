@@ -30,27 +30,33 @@ class AuthController extends Controller
 
     public function auth(Request $request): RedirectResponse
     {
-        $credentials = [
-            'username' => $request->username,
-            'password' => $request->password
-        ];
-
+        $request->validate([
+            'username' => 'required|exists:users,username',
+            'password' => 'required',
+        ], [
+            'username.exists' => 'There is no such username.',
+            'password.required' => 'The password field is required.',
+        ]);
+    
+        $credentials = $request->only('username', 'password');
+    
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
-
+    
             if($user->roleId == 1) {
-                return redirect('admin/dashboard')->with(['success', 'Hallo, Admin!']);
-            }elseif($user->roleId == 2) {
-                return redirect('cashier/dashboard')->with(['success', 'Hallo, Cashier!']);
-            }elseif($user->roleId == 3) {
-                return redirect('/home')->with(['success', 'Hallo, Customers!']);   
-            }else{
-                return redirect('/')->with(['?']);
+                return redirect('admin/dashboard')->with('success', 'Hallo, Admin!');
+            } elseif($user->roleId == 2) {
+                return redirect('cashier/dashboard')->with('success', 'Hallo, Cashier!');
+            } elseif($user->roleId == 3) {
+                return redirect('/home')->with('success', 'Hallo, Customers!');   
+            } else {
+                return redirect('/')->with('warning', 'Unknown role for this user.');
             }
         }
-
-        return back()->with(['Failed to signin']);
+    
+        return back()->withErrors(['Failed to signin']);
     }
+    
 
     public function signup(Request $request)
     {

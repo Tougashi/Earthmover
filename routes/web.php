@@ -28,6 +28,7 @@ Route::middleware(['auth'])->group(function(){
         });
         Route::controller(UserController::class)->group(function(){
             Route::get('/profile', 'edit')->name('user.profile');
+            Route::put('/{id}/update', 'update')->name('user.update');
         });
 });
 
@@ -53,7 +54,8 @@ Route::middleware(['auth', 'checkrole:1'])->group(function(){
                 Route::get('/', 'index');
                 Route::get('/add', 'create');
                 Route::post('/add/store', 'store')->name('users.add');
-                Route::put('/{id}/update', 'update')->name('user.update');
+                // Route::put('/{id}/update', 'update')->name('user.update');
+                Route::put('/{id}/update', 'updateRole')->name('role.update');
                 Route::get('/{id}/destroy', 'destroy')->name('user.destroy');
             });
         });
