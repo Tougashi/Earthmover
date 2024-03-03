@@ -8,7 +8,7 @@
                     <div class="row align-items-center">
                         <div class="col-lg-2 col-xl-2">
                             @if(auth()->check() && auth()->user()->roleId === 1)
-                            <a href="{{ url()->current(). '/add' }}" class="btn btn-dark custom-rounded"><i class='bx bxs-plus-circle'></i> New Product</a>
+                            <a href="{{ url()->current(). '/add' }}" class="btn btn-dark custom-rounded mb-2"><i class='bx bxs-plus-circle'></i> New Product</a>
                             @endif
                         </div> 
                         <div class="col-lg-9 col-xl-10 @if(auth()->check() && auth()->user()->roleId === 2) align-items-center @endif">
@@ -89,11 +89,11 @@
                             <i class='bx bxs-edit'></i>
                         </a>
                     </div>                        
-                    <p class="mb-0 ms-auto">
+                    <div class="mb-0 ms-auto">
                         <a href="{{ route('product.destroy', encrypt($product->id)) }}" class="btn btn-outline-secondary btn-dark text-white deleteProductBtn" data-id="{{ encrypt($product->id) }}">
                             <i class='bx bxs-trash'></i>
                         </a>                                               
-                    </p>
+                    </div>
                 </div>
                 @else
                 <div class="d-flex align-items-center mt-3 fs-6">

@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="{{ asset('/assets/plugins/Scrollbar/css/scrollbar.css') }}">
     <link rel="stylesheet" href="{{ asset('/assets/plugins/Drag-And-Drop/dist/imageuploadify.min.css') }}"/>
     <link rel="stylesheet" href="{{ asset('/assets/plugins/sweetalert2/dist/sweetalert2.min.css') }}"/>
+    <link href="{{ asset('/assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet" />
+	<link href="{{ asset('/assets/plugins/select2/css/select2-bootstrap4.css') }}" rel="stylesheet" />
 
     {{-- JS SCRIPT  --}}
     <script src="{{ asset('/assets/js/script.js') }}"></script>
@@ -27,7 +29,7 @@
     <script src="{{ asset('/assets/plugins/Scrollbar/js/scrollbar.js') }}"></script>
     <script src="{{ asset('/assets/plugins/Drag-And-Drop/dist/imageuploadify.min.js') }}"></script>
     <script src="{{ asset('/assets/plugins/sweetalert2/dist/sweetalert2.js') }}"></script>  
-     
+    <script src="{{ asset('/assets/plugins/select2/js/select2.min.js') }}"></script>
     
     @yield('plugins')
 </head>
@@ -56,37 +58,44 @@
     </section>
     @stack('scripts')
     <script>
-        //SEARCH JS
-    function searchProducts() {
-        var input, filter, productCards, productName, i;
-        input = document.getElementById('searchInput');
-        filter = input.value.toUpperCase();
-        productCards = document.querySelectorAll('.product-card');
-        var noProductMessage = document.getElementById('noProductMessage');
-        var productContainer = document.getElementById('productContainer');
-        var hasProducts = false;
 
-        for (i = 0; i < productCards.length; i++) {
-            productName = productCards[i].querySelector('.product-title').textContent.toUpperCase();
-            if (productName.indexOf(filter) > -1) {
-                productCards[i].style.display = "";
-                hasProducts = true;
+        $(document).keydown(function(e) {
+            if (e.shiftKey && e.key === 'O') {
+                window.location.href = 'orders/add';
+            }
+        });
+
+        //SEARCH JS
+        function searchProducts() {
+            var input, filter, productCards, productName, i;
+            input = document.getElementById('searchInput');
+            filter = input.value.toUpperCase();
+            productCards = document.querySelectorAll('.product-card');
+            var noProductMessage = document.getElementById('noProductMessage');
+            var productContainer = document.getElementById('productContainer');
+            var hasProducts = false;
+
+            for (i = 0; i < productCards.length; i++) {
+                productName = productCards[i].querySelector('.product-title').textContent.toUpperCase();
+                if (productName.indexOf(filter) > -1) {
+                    productCards[i].style.display = "";
+                    hasProducts = true;
+                } else {
+                    productCards[i].style.display = "none";
+                }
+            }
+
+            if (!hasProducts) {
+                noProductMessage.classList.remove('d-none');
+                productContainer.classList.add('d-none');
             } else {
-                productCards[i].style.display = "none";
+                noProductMessage.classList.add('d-none');
+                productContainer.classList.remove('d-none');
             }
         }
-
-        if (!hasProducts) {
-            noProductMessage.classList.remove('d-none');
-            productContainer.classList.add('d-none');
-        } else {
-            noProductMessage.classList.add('d-none');
-            productContainer.classList.remove('d-none');
-        }
-    }
-    document.getElementById('searchInput').addEventListener('input', function() {
-        searchProducts();
-    });
+        document.getElementById('searchInput').addEventListener('input', function() {
+            searchProducts();
+        });
     </script>
     
 </body>

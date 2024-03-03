@@ -70,6 +70,7 @@ class UserController extends Controller
     public function updateRole(Request $request, $id)
     {
         $user = User::findOrFail(decrypt($id));
+
         $request->validate([
             'roleId' => 'required|exists:roles,id',
         ]);
@@ -78,6 +79,7 @@ class UserController extends Controller
 
         return response()->json(['message' => 'User role has been updated successfully.']);
     }
+
 
     /**
      * Remove the specified resource from storage.

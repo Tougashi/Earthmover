@@ -3,13 +3,14 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
-use App\Models\User;
+use Carbon\Carbon;
 use App\Models\Role;
+use App\Models\User;
+use App\Models\Product;
 use App\Models\Category;
 use App\Models\Supplier;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Carbon\Carbon;
 
 class DatabaseSeeder extends Seeder
 {
@@ -60,9 +61,8 @@ class DatabaseSeeder extends Seeder
             'slug' => 'pants',
             'description' => 'Pants'
         ]);
-        Supplier::factory()->create([
-            'name' => '7Club',
-            'slug' => '7club'
-        ]);
+        Supplier::factory(5)->create();
+        Product::factory(20)->create();
+        // User::factory(10)->create();
     }
 }

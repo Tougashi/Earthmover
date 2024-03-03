@@ -54,9 +54,18 @@ Route::middleware(['auth', 'checkrole:1'])->group(function(){
                 Route::get('/', 'index');
                 Route::get('/add', 'create');
                 Route::post('/add/store', 'store')->name('users.add');
-                // Route::put('/{id}/update', 'update')->name('user.update');
                 Route::put('/{id}/update', 'updateRole')->name('role.update');
                 Route::get('/{id}/destroy', 'destroy')->name('user.destroy');
+            });
+        });
+        Route::prefix('orders')->group(function(){
+            Route::controller(OrderController::class)->group(function(){
+                Route::get('/', 'index');
+                Route::get('/add', 'create');
+                Route::post('/add/store', 'store')->name('order.add');
+                Route::put('/{id}', 'show')->name('order.show');
+                Route::put('/{id}/update', 'update')->name('order.update');
+                Route::get('/{id}/destroy', 'destroy')->name('order.destroy');
             });
         });
     });
