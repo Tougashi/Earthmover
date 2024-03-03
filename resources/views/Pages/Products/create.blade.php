@@ -87,13 +87,13 @@
         $('#submitBtn').click(function (e) {
             e.preventDefault();
 
-            var productName = $('#inputProductName').val().trim();
-            var productDescription = $('#inputProductDescription').val().trim();
-            var category = $('#inputCategory').val().trim();
-            var type = $('#inputType').val().trim();
-            var price = $('#inputPrice').val().trim();
-            var stock = $('#inputStock').val().trim();
-            var code = $('#inputCode').val().trim();
+            let productName = $('#inputProductName').val().trim();
+            let productDescription = $('#inputProductDescription').val().trim();
+            let category = $('#inputCategory').val().trim();
+            let type = $('#inputType').val().trim();
+            let price = $('#inputPrice').val().trim();
+            let stock = $('#inputStock').val().trim();
+            let code = $('#inputCode').val().trim();
 
             if (!productName || !productDescription || !code || !price || !stock || !category || !type ) {
                 Swal.fire({

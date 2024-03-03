@@ -12,7 +12,10 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        //
+        return view('Pages.Transactions.index', [
+            'title' => 'Transactions',
+            'transactions' => Transaction::all()
+        ]);
     }
 
     /**

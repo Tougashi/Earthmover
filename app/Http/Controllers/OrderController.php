@@ -15,9 +15,13 @@ class OrderController extends Controller
      */
     public function index()
     {
+        $orders = Order::all();
+
+        $groupedOrders = $orders->groupBy('code');
         return view('Pages.Orders.index', [
             'title' => 'Orders',
-            'order' => Order::latest()->get()
+            'order' => Order::latest()->get(),
+            'groupedOrders' => $groupedOrders
         ]);
     }
 
@@ -30,6 +34,7 @@ class OrderController extends Controller
             'title' => 'Add Orders',
             'products' => Product::all(),
             'users' => User::all(),
+            
         ]);
     }
 
@@ -39,31 +44,37 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'productId' => 'required|exists:products,id',
-            'userId' => 'required|exists:users,id', 
-            'quantity' => 'required|integer|min:1',
-            'totalPrice' => 'required|numeric|min:0', 
+            'productId' => 'required|array',
+            'productId.*' => 'exists:products,id',
+            'userId' => 'required|exists:users,id',
+            'quantity' => 'required|array',
+            'quantity.*' => 'integer|min:1',
+            'totalPrice' => 'required|numeric|min:0',
         ]);
-
-        $productId = $request->input('productId');
-        $userId = $request->input('userId'); 
-
+    
+        // Ambil data dari request
+        $productIds = $request->input('productId');
+        $userId = $request->input('userId');
+        $quantities = $request->input('quantity');
+        $totalPrice = $request->input('totalPrice');
+    
+        // Generate kode pesanan menggunakan Faker
         $faker = Faker::create();
         $code = '#' . $faker->bothify('???##?');
-        $quantity = $request->input('quantity');
-        $totalPrice = $request->input('totalPrice');
-        $date = now(); 
-
-        $order = new Order();
-        $order->productId = $productId;
-        $order->userId = $userId;
-        $order->code = $code;
-        $order->quantity = $quantity;
-        $order->totalPrice = $totalPrice;
-        $order->date = $date;
-        $order->save();
-
-        return response()->json(['message' => 'Order created successfully']);
+    
+        // Simpan setiap pesanan ke database
+        foreach ($productIds as $key => $productId) {
+            $order = new Order();
+            $order->productId = $productId;
+            $order->userId = $userId;
+            $order->code = $code;
+            $order->quantity = $quantities[$key]; // Ambil quantity sesuai indeks
+            $order->totalPrice = $totalPrice;
+            $order->date = now();
+            $order->save();
+        }
+    
+        return response()->json(['message' => 'Orders created successfully']);
     }
 
 

@@ -112,9 +112,9 @@
     });
 
     function changeMainImage(clickedImage) {
-        var newMainImageSrc = clickedImage.src;
-        var mainImage = document.getElementById('mainImage');
-        var currentMainImageSrc = mainImage.src;
+        let newMainImageSrc = clickedImage.src;
+        let mainImage = document.getElementById('mainImage');
+        let currentMainImageSrc = mainImage.src;
         mainImage.src = newMainImageSrc;
         clickedImage.src = currentMainImageSrc;
     }

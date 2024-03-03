@@ -14,30 +14,17 @@
                             <tr>
                                 <th>No</th>
                                 <th>Code</th>
-                                {{-- <th>Quantity</th> 
-                                <th>Price</th> --}}
+                                <th>Quantity</th> 
+                                <th>Price</th>
                                 <th>Status</th>
                                 <th>Date</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($groupedOrders as $code => $orders)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $code }}</td>
-                                {{-- <td>{{ $orders->first()->quantity }}</td>
-                                <td>{{ $orders->first()->totalPrice }}</td> --}}
-                                <td>Pending</td>
-                                <td>{{ $orders->first()->created_at->formatLocalized('%d %B %Y') }}</td>
-                                <td>
-                                    <div class="d-flex order-actions gap-2 justify-content-center">
-                                        <a href="" class="btn btn-dark btn-outline-secondary"><i class='bx bxs-edit text-white'></i></a>
-                                        <a href="" class="btn btn-dark btn-outline-secondary"><i class='bx bxs-trash text-white'></i></a>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
+                           <tr>
+                            <td></td>
+                           </tr>
                         </tbody>
                     </table>   
                 </div>

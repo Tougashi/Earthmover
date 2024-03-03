@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('productId');
             $table->unsignedBigInteger('userId');
-            $table->string('code')->unique();
+            $table->unsignedBigInteger('customerId');
+            $table->string('code');
             $table->integer('quantity');
             $table->decimal('totalPrice', 10, 2);
             $table->dateTime('date');
@@ -23,6 +24,8 @@ return new class extends Migration
 
             $table->foreign('productId')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('userId')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('customerId')->references('id')->on('customers')->onDelete('cascade')->onUpdate('cascade');
+
         });
 
     }
