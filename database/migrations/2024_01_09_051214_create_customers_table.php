@@ -14,8 +14,12 @@ return new class extends Migration
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->text('address');
+            $table->text('address');    
             $table->string('contact');
+            // $table->string('email');
+
+            // $table->unsignedBigInteger('roleId');
+            // $table->foreign('roleId')->references('id')->on('Roles')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }

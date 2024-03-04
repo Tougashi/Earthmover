@@ -28,7 +28,7 @@
       </a>
       <span class="tooltip">Products</span>
     </li>
-    {{-- <li>
+    <li>
       @if(auth()->check() && auth()->user()->roleId === 1)
       <a href="{{ url('admin/customers') }}">
       @endif
@@ -39,13 +39,13 @@
         <span class="links_name">Customers</span>
       </a>
       <span class="tooltip">Customers</span>
-    </li> --}}
+    </li>
     <li>
       @if(auth()->check() && auth()->user()->roleId === 1)
-      <a href="{{ url('admin/orders') }}">
+      <a href="{{ url('admin/orders/add') }}">
       @endif
       @if(auth()->check() && auth()->user()->roleId === 2)
-      <a href="{{ url('cashier/orders') }}">
+      <a href="{{ url('cashier/orders/add') }}">
       @endif
         <i class="bx bx-cart"></i>
         <span class="links_name">Orders</span>

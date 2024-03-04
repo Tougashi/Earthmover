@@ -8,9 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     use HasFactory;
-    protected $guarded = ['id'];
+    protected $fillable = [
+        'code', 'quantity', 'totalPrice', 'date', 'userId', 'customerId', 'productId'
+    ];
 
-    public function Product()
+    public function product()
     {
         return $this->belongsTo(Product::class, 'productId');
     }
@@ -22,4 +24,9 @@ class Order extends Model
     {
         return $this->belongsTo(User::class, 'userId');
     }
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'customerId');
+    }
+
 }

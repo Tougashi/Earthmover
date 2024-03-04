@@ -2,7 +2,7 @@
     @section('content') 
 
     <div class="container-fluid px-md-5">
-        <form action="{{ route('order.add') }}" method="POST">
+        <form id="orderForm" method="POST">
             @csrf
             <div class="row justify-content-center">
                 <div class="col-lg-8">
@@ -11,12 +11,12 @@
                             <div class="border border-dark border-3 p-4 custom-rounded">
                                 <div class="row g-3">
                                     <div class="col-lg-12">
-                                        <label class="form-label">Buyer</label>
+                                        <label class="form-label">Customers</label>
                                         <div class="input-group">
-                                            <select id="buyerSelect" class="single-select form-select" name="userId">
-                                                <option selected disabled>Choose Buyer</option>
-                                                @foreach ($users as $user)
-                                                <option value="{{ $user->id }}">{{ $user->username }}</option>
+                                            <select id="buyerSelect" class="single-select form-select" name="customerId">
+                                                <option selected disabled>Choose Customers</option>
+                                                @foreach ($customers as $customer)
+                                                <option value="{{ $customer->id }}">{{ $customer->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -50,7 +50,7 @@
                                 <thead style="background-color: rgb(19, 16, 16); color:white">
                                     <tr>
                                         <th>No</th>
-                                        <th>Buyer</th>
+                                        <th>Customer</th>
                                         <th>Code</th>
                                         <th>Product</th>
                                         <th>Quantity</th> 
@@ -157,11 +157,13 @@
             let orderTable = document.getElementById('orderTableBody');
             let submitBtn = document.getElementById('submitBtn');
             if (orderTable.getElementsByTagName('tr').length > 0) {
-                submitBtn.style.display = 'block'; 
+                submitBtn.style.display = 'block';
             } else {
-                submitBtn.style.display = 'none'; 
+                submitBtn.style.display = 'none';
             }
         }
+
+        togglePayButtonVisibility();
 
         function findExistingRow(productId) {
             let rows = document.getElementById('orderTableBody').getElementsByTagName('tr');
@@ -192,7 +194,54 @@
             document.getElementById('totalPrice').textContent = '$' + totalPrice.toFixed(2);
         }
 
-        
+        document.getElementById('submitBtn').addEventListener('click', function(event) {
+        event.preventDefault();
+
+        let form = document.getElementById('orderForm');
+        let formData = new FormData(form);
+
+        let route = '{{ Auth::user()->roleId == 1 ? route("admin.order.store") : route("cashier.order.store") }}';
+        $.ajax({
+            type: 'POST',
+            url: route,
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'Order is successful. Do you want to print an invoice?',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'No',
+                    closeOnConfirm: false,
+                    closeOnCancel: false
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '';
+                    } else {
+                        $('#orderTableBody').empty();
+                        $('#totalPrice').empty();
+                        $('#buyerSelect').val('').trigger('change');
+                        $('#productSelect').val('').trigger('change');
+                        document.getElementById('submitBtn').style.display = 'none';
+                        Swal.fire('Cancelled', 'You chose not to print an invoice.', 'info');
+                    }
+                });
+
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                console.error('Error:', errorThrown);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Failed to create order. Please try again.'
+                });
+            }
+        });
+    });
+
 
     </script>
 

@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('productId');
-            $table->unsignedBigInteger('userId');
-            $table->unsignedBigInteger('customerId');
+            $table->json('productId');
+            $table->unsignedBigInteger('userId')->nullable();
+            $table->unsignedBigInteger('customerId')->nullable();
             $table->string('code');
-            $table->integer('quantity');
+            $table->json('quantity');
             $table->decimal('totalPrice', 10, 2);
             $table->dateTime('date');
             $table->timestamps();
 
-            $table->foreign('productId')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
+            // $table->foreign('productId')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('userId')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('customerId')->references('id')->on('customers')->onDelete('cascade')->onUpdate('cascade');
 

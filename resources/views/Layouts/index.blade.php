@@ -67,13 +67,13 @@
 
         //SEARCH JS
         function searchProducts() {
-            var input, filter, productCards, productName, i;
+            let input, filter, productCards, productName, i;
             input = document.getElementById('searchInput');
             filter = input.value.toUpperCase();
             productCards = document.querySelectorAll('.product-card');
-            var noProductMessage = document.getElementById('noProductMessage');
-            var productContainer = document.getElementById('productContainer');
-            var hasProducts = false;
+            let noProductMessage = document.getElementById('noProductMessage');
+            let productContainer = document.getElementById('productContainer');
+            let hasProducts = false;
 
             for (i = 0; i < productCards.length; i++) {
                 productName = productCards[i].querySelector('.product-title').textContent.toUpperCase();

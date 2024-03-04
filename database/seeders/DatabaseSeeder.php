@@ -8,6 +8,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Customer;
 use App\Models\Supplier;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -44,12 +45,6 @@ class DatabaseSeeder extends Seeder
             'password' => Bcrypt('password'),
             'roleId' => 2
         ]);
-        User::factory()->create([
-            'username' => 'Guest',
-            'email' => 'customer@gmail.com',
-            'password' => Bcrypt('password'),
-            'roleId' => 3
-        ]);
 
         Category::factory()->create([
             'name' => 'T-Shirt',
@@ -61,8 +56,13 @@ class DatabaseSeeder extends Seeder
             'slug' => 'pants',
             'description' => 'Pants'
         ]);
+        Customer::factory()->create([
+            'name' => 'Guest',
+            'address' => 'None',
+            'contact' => 'None',
+        ]);
         Supplier::factory(5)->create();
         Product::factory(20)->create();
-        // User::factory(10)->create();
+        Customer::factory(10)->create();
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ViewController extends Controller
@@ -12,4 +14,18 @@ class ViewController extends Controller
             'title' => 'Dashboard'
         ]); 
     }
+
+    public function invoice($code)
+    {
+
+        $code = urldecode($code);
+        $order = Order::where('code', $code)->firstOrFail();
+
+        return view('Components.invoice', [
+            'order' => $order,
+            'products' => Product::all(),
+        ]);
+    }
+
+    
 }

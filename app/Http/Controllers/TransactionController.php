@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 
@@ -12,9 +13,13 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        return view('Pages.Transactions.index', [
+        $orders = Order::all();
+
+        $groupedOrders = $orders->groupBy('code');
+        return view('Pages.Orders.index', [
             'title' => 'Transactions',
-            'transactions' => Transaction::all()
+            'order' => Order::latest()->get(),
+            'groupedOrders' => $groupedOrders
         ]);
     }
 
