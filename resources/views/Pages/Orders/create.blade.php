@@ -104,6 +104,16 @@
             let product = document.getElementById('productSelect');
             let selectedProductId = product.value;
             let selectedProductStock = parseInt(product.options[product.selectedIndex].getAttribute('data-stock'));
+            
+            if (selectedProductStock <= 0) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Sorry, this product is out of stock.'
+                });
+                return;
+            }
+
             if (buyer.value !== '' && !buyer.options[buyer.selectedIndex].disabled && product.value !== '' && !product.options[product.selectedIndex].disabled) {
                 let existingRow = findExistingRow(selectedProductId);
                 if (existingRow) {
@@ -153,6 +163,29 @@
         });
 
 
+        document.querySelectorAll('.quantity-input').forEach(function(input) {
+            input.addEventListener('input', function() {
+                let maxStock = parseInt(this.getAttribute('max'));
+                let currentStock = parseInt(this.value);
+                if (currentStock > maxStock) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Quantity cannot exceed available stock (' + maxStock + ').'
+                    });
+                    this.value = maxStock; 
+                } else if (currentStock < 1) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Quantity must be at least 1.'
+                    });
+                    this.value = 1; 
+                }
+            });
+        });
+
+
         function togglePayButtonVisibility() {
             let orderTable = document.getElementById('orderTableBody');
             let submitBtn = document.getElementById('submitBtn');
@@ -195,52 +228,53 @@
         }
 
         document.getElementById('submitBtn').addEventListener('click', function(event) {
-        event.preventDefault();
+            event.preventDefault();
 
-        let form = document.getElementById('orderForm');
-        let formData = new FormData(form);
-
-        let route = '{{ Auth::user()->roleId == 1 ? route("admin.order.store") : route("cashier.order.store") }}';
-        $.ajax({
-            type: 'POST',
-            url: route,
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(response) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: 'Order is successful. Do you want to print an invoice?',
-                    showCancelButton: true,
-                    confirmButtonText: 'Yes',
-                    cancelButtonText: 'No',
-                    closeOnConfirm: false,
-                    closeOnCancel: false
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.href = '';
-                    } else {
-                        $('#orderTableBody').empty();
-                        $('#totalPrice').empty();
-                        $('#buyerSelect').val('').trigger('change');
-                        $('#productSelect').val('').trigger('change');
-                        document.getElementById('submitBtn').style.display = 'none';
-                        Swal.fire('Cancelled', 'You chose not to print an invoice.', 'info');
-                    }
-                });
-
-            },
-            error: function(xhr, textStatus, errorThrown) {
-                console.error('Error:', errorThrown);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Failed to create order. Please try again.'
-                });
-            }
+            let form = document.getElementById('orderForm');
+            let formData = new FormData(form);
+            let route = '{{ Auth::user()->roleId == 1 ? route("admin.order.store") : route("cashier.order.store") }}';
+            $.ajax({
+                type: 'POST',
+                url: route,
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Order is successful. Do you want to print an invoice?',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes',
+                        cancelButtonText: 'No',
+                        closeOnConfirm: false,
+                        closeOnCancel: false
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            let uniqueCode = response.code; 
+                            let invoiceRoute = "{{ route('invoice', ':code') }}";
+                            invoiceRoute = invoiceRoute.replace(':code', uniqueCode);
+                            window.location.href = invoiceRoute;
+                        } else {
+                            $('#orderTableBody').empty();
+                            $('#totalPrice').empty();
+                            $('#buyerSelect').val('').trigger('change');
+                            $('#productSelect').val('').trigger('change');
+                            document.getElementById('submitBtn').style.display = 'none';
+                            Swal.fire('Cancelled', 'You chose not to print an invoice.', 'info');
+                        }
+                    });
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    console.error('Error:', errorThrown);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Failed to create order. Please try again.'
+                    });
+                }
+            });
         });
-    });
 
 
     </script>

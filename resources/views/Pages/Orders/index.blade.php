@@ -4,7 +4,7 @@
 <div class="container-fluid px-md-5">
     <div class="row">
         <div class="col text-end">
-            <a href="{{ url()->current() }}/add" class="btn btn-sm btn-dark custom-rounded float-end mb-2 radius-30"><i class='bx bxs-plus-circle'></i> New Orders</a>
+            <a href="orders/add" class="btn btn-sm btn-dark custom-rounded float-end mb-2 radius-30"><i class='bx bxs-plus-circle'></i> New Orders</a>
         </div>
         <div class="card shadow mb-3 custom-rounded">
             <div class="card-body">

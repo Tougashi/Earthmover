@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="{{ asset('/assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('/assets/plugins/Bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/assets/plugins/BoxIcons/css/boxicons.css') }}">
-    <link rel="stylesheet" href="{{ asset('/assets/plugins/datatable/css/dataTables.bootstrap5.min.css') }}">
 </head>
 <body>
     <div class="container">
@@ -104,9 +103,14 @@
     {{-- JS SCRIPT  --}}
     <script src="{{ asset('/assets/js/script.js') }}"></script>
     <script src="{{ asset('/assets/plugins/JQuery/jquery-3.7.1.min.js') }}"></script>
-    <script src="{{ asset('/assets/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('/assets/plugins/Bootstrap/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('/assets/plugins/Bootstrap/js/popper.min.js') }}"></script>   
     <script src="{{ asset('/assets/plugins/datatable/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script>
+        // Function to print the invoice when the page is loaded
+        window.onload = function() {
+            window.print();
+        };
+    </script>
 </body>
 </html>

@@ -77,7 +77,7 @@ class OrderController extends Controller
         }
     
     
-        return redirect()->back()->with('success', 'Orders created successfully');
+        return response()->json(['code' => $uniqueCode]);
     }
     
     
