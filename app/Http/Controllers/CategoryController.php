@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
@@ -23,7 +24,10 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('Pages.Categories.create', [
+            'title' => 'Add Categories',
+            'categories' => Category::all()
+        ]);
     }
 
     /**
@@ -31,38 +35,54 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validasi input
+        $validatedData = $request->validate([
+            'name' => 'required|string|unique:categories',
+            'description' => 'nullable|string',
+        ]);
+
+        $slug = Str::slug(strtolower($validatedData['name']));
+
+        $category = new Category;
+        $category->name = $validatedData['name'];
+        $category->slug = $slug;
+        $category->description = $request->description;
+        $category->save();
+
+        return response()->json(['message' => 'Category has been created successfully.']);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Category $category)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Category $category)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, $id)
     {
-        //
+        $category = Category::find($id);
+        $validatedData = $request->validate([
+            'name' => 'required|string|unique:categories,name,' . $category->id,
+            'description' => 'nullable|string',
+        ]);
+
+        $slug = Str::slug(strtolower($validatedData['name']));
+
+        $category->name = $validatedData['name'];
+        $category->slug = $slug;
+        $category->description = $request->description;
+        $category->save();
+
+        return response()->json(['message' => 'Category has been updated successfully.']);
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Category $category)
+    public function destroy($id)
     {
-        //
+        $category = Category::find($id);
+        Category::destroy(decrypt($id));
+    
+        return response()->json(['message' => 'Category has been deleted successfully.']);
     }
 }

@@ -26,11 +26,16 @@
                                         <div class="input-group">
                                             <select id="productSelect" class="single-select form-select">
                                                 <option selected disabled>Choose Product</option>
-                                                @foreach ($products as $product)
-                                                <option value="{{ $product->id }}" data-code="{{ $product->code }}" data-name="{{ $product->name }}" data-price="{{ $product->price }}" data-id="{{ $product->id }}" data-stock="{{ $product->stock }}">{{ $product->code }} | {{ $product->name }} ${{ $product->price }}</option>
-                                                @endforeach
+                                                @foreach ($products->sortByDesc('stock') as $product)
+                                                @php
+                                                    $stockClass = $product->stock == 0 ? 'text-danger' : '';
+                                                @endphp
+                                                <option value="{{ $product->id }}" data-code="{{ $product->code }}" data-name="{{ $product->name }}" data-price="{{ $product->price }}" data-id="{{ $product->id }}" data-stock="{{ $product->stock }}" class="{{ $stockClass }}" @if ($product->stock == 0) style="color: red;" @endif>
+                                                    {{ $product->code }} | {{ $product->name }} | ${{ $product->price }} | Stock: {{ $product->stock }}
+                                                </option>
+                                                @endforeach                                            
                                             </select>
-                                        </div>
+                                        </div>                          
                                     </div>
                                     <div class="col-12">
                                         <div class="d-grid">
@@ -84,12 +89,20 @@
 
     @push('scripts')
     <script>
-        $('.single-select').select2({
+       $('.single-select').select2({
             theme: 'bootstrap4',
             width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
             placeholder: $(this).data('placeholder'),
             allowClear: Boolean($(this).data('allow-clear')),
         });
+
+        // Tambahkan style untuk opsi dengan stok 0 setelah Select2 diterapkan
+        $('.single-select option').each(function() {
+            if ($(this).data('stock') == 0) {
+                $(this).css('color', 'red !important');
+            }
+        });
+
         $('.multiple-select').select2({
             theme: 'bootstrap4',
             width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
@@ -139,7 +152,7 @@
                         <td><input type="hidden" class="form-control productId" name="productId[]" value="${selectedProductId}">${product.options[product.selectedIndex].getAttribute('data-name')}</td>
                         <td><input type="number" name="quantity[]" class="form-control quantity-input" value="1" min="1" max="${selectedProductStock}" /></td>
                         <td>$${product.options[product.selectedIndex].getAttribute('data-price')}</td>
-                        <td><button class="btn btn-outline-secondary btn-dark text-white deleteBtn"><i class='bx bxs-trash'></i></button></td>
+                        <td><button class="btn btn-outline-secondary btn-danger text-white deleteBtn"><i class='bx bxs-trash'></i></button></td>
                     `;
                     newRow.setAttribute('data-id', selectedProductId);
                     newRow.querySelector('.quantity-input').addEventListener('input', function() {
@@ -229,53 +242,66 @@
 
         document.getElementById('submitBtn').addEventListener('click', function(event) {
             event.preventDefault();
-
-            let form = document.getElementById('orderForm');
-            let formData = new FormData(form);
-            let route = '{{ Auth::user()->roleId == 1 ? route("admin.order.store") : route("cashier.order.store") }}';
-            $.ajax({
-                type: 'POST',
-                url: route,
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: 'Order is successful. Do you want to print an invoice?',
-                        showCancelButton: true,
-                        confirmButtonText: 'Yes',
-                        cancelButtonText: 'No',
-                        closeOnConfirm: false,
-                        closeOnCancel: false
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            let uniqueCode = response.code; 
-                            let invoiceRoute = "{{ route('invoice', ':code') }}";
-                            invoiceRoute = invoiceRoute.replace(':code', uniqueCode);
-                            window.location.href = invoiceRoute;
-                        } else {
-                            $('#orderTableBody').empty();
-                            $('#totalPrice').empty();
-                            $('#buyerSelect').val('').trigger('change');
-                            $('#productSelect').val('').trigger('change');
-                            document.getElementById('submitBtn').style.display = 'none';
-                            Swal.fire('Cancelled', 'You chose not to print an invoice.', 'info');
+            Swal.fire({
+                icon: 'question',
+                title: 'Confirmation',
+                text: 'Is the order correct?',
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No',
+                closeOnConfirm: false,
+                closeOnCancel: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let form = document.getElementById('orderForm');
+                    let formData = new FormData(form);
+                    let route = '{{ Auth::user()->roleId == 1 ? route("admin.order.store") : route("cashier.order.store") }}';
+                    $.ajax({
+                        type: 'POST',
+                        url: route,
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function(response) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: 'Order is successful. Do you want to print an invoice?',
+                                showCancelButton: true,
+                                confirmButtonText: 'Yes',
+                                cancelButtonText: 'No',
+                                closeOnConfirm: false,
+                                closeOnCancel: false
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    let uniqueCode = response.code; 
+                                    let invoiceRoute = "{{ route('invoice', ':code') }}";
+                                    invoiceRoute = invoiceRoute.replace(':code', uniqueCode);
+                                    
+                                    window.open(invoiceRoute, '_blank');
+                                    location.reload();
+                                } else {
+                                    $('#orderTableBody').empty();
+                                    $('#totalPrice').empty();
+                                    $('#buyerSelect').val('').trigger('change');
+                                    $('#productSelect').val('').trigger('change');
+                                    document.getElementById('submitBtn').style.display = 'none';
+                                    Swal.fire('Cancelled', 'You chose not to print an invoice.', 'info');
+                                }
+                            });
+                        },
+                        error: function(xhr, textStatus, errorThrown) {
+                            console.error('Error:', errorThrown);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Failed to create order. Please try again.'
+                            });
                         }
-                    });
-                },
-                error: function(xhr, textStatus, errorThrown) {
-                    console.error('Error:', errorThrown);
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'Failed to create order. Please try again.'
                     });
                 }
             });
         });
-
 
     </script>
 

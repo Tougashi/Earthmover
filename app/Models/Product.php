@@ -21,6 +21,16 @@ class Product extends Model
                 Storage::disk()->delete($item->image);
                 $item->delete();
             }
+
+            $orders = Order::all();
+
+            foreach ($orders as $order) {
+                $productIds = json_decode($order->productId);
+
+                if (in_array($product->id, $productIds)) {
+                    $order->delete();
+                }
+            }
         });
     }
 

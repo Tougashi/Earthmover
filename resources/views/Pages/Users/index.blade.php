@@ -58,11 +58,11 @@
                             @endif
                             text-uppercase fs-7">{{ $item->role->role }}</p>
                         <div class="d-flex align-items-center mt-3 fs-6">
-                            <a href="{{ route('role.update', encrypt($item->id) ) }}" class="btn btn-outline-secondary btn-dark text-white editUserBtn" data-id="{{ encrypt($item->id) }}" data-role="{{ $item->role->id }}" data-bs-toggle="modal" data-bs-target="#editRoleModal">
+                            <a href="{{ route('role.update', encrypt($item->id) ) }}" class="btn btn-outline-secondary btn-primary text-white editUserBtn" data-id="{{ encrypt($item->id) }}" data-role="{{ $item->role->id }}" data-bs-toggle="modal" data-bs-target="#editRoleModal">
                                 <i class="bx bx-edit"></i>
                             </a>
                             <div class="mb-0 ms-auto">                                                                                    
-                                <a href="{{ route('user.destroy', encrypt($item->id) ) }}" class="btn btn-outline-secondary btn-dark text-white deleteUserBtn" data-id="{{ encrypt($item->id) }}"><i class="bx bx-trash"></i></a>
+                                <a href="{{ route('user.destroy', encrypt($item->id) ) }}" class="btn btn-outline-secondary btn-danger text-white deleteUserBtn" data-id="{{ encrypt($item->id) }}"><i class="bx bx-trash"></i></a>
                             </div>
                         </div>
                     </div>

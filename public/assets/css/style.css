@@ -416,7 +416,7 @@
 }
 
 .zoomable:hover {
-  transform: scale(1.5); 
+  transform: scale(1.2); 
 }
 
 .small-font {
@@ -430,7 +430,7 @@
 .invoice {
 	position: relative;
 	background-color: #fff;
-	min-height: 680px;
+	min-height: 1000px;
 	padding: 15px
 }
 
@@ -482,12 +482,6 @@
 	margin-bottom: 50px
 }
 
-.invoice main .notices {
-	padding-left: 6px;
-	border-left: 6px solid #0e0e18;
-	background: #e7f2ff;
-	padding: 10px
-}
 
 .invoice main .notices .notice {
 	font-size: 1.2em
@@ -513,11 +507,11 @@
 	font-size: 16px
 }
 
-.invoice table td h3 {
+.invoice table td h2 {
 	margin: 0;
-	font-weight: 400;
+	font-weight: 600;
 	color: #0e0e18;
-	font-size: 1.2em
+	font-size: 1.5em
 }
 
 .invoice table .qty,
@@ -578,13 +572,12 @@
 	border-bottom: 1px solid #000000;
 }
 
-/* Menambahkan aturan cetak */
 @media print {
   .invoice {
       font-size: 11px!important;
       overflow: hidden!important;
-      width: 210mm; /* Lebar kertas A5 dalam mm */
-      height: 148mm; /* Tinggi kertas A5 dalam mm */
+      width: 210mm; 
+      height: 148mm; 
   }
   .invoice footer {
       position: absolute;
@@ -595,7 +588,6 @@
       page-break-before: always;
   }
 
-  /* Menambahkan aturan untuk menampilkan elemen 'thanks' saat dicetak */
 }
 
 
@@ -624,6 +616,8 @@
     padding: 15px;
     margin: 0 auto; 
 }
+
+
 
 
 

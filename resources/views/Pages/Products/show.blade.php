@@ -2,7 +2,7 @@
 @section('content')
 <x-back/>
 <div class="container">
-    <div class="row justify-content-center">
+    <div class="row justify-content-center mt-2">
         <div class="col-md-10">
             <div class="card border mb-4 shadow custom-rounded">
                 <div class="row g-0">
@@ -10,7 +10,7 @@
                         @if($images->isNotEmpty())
                             @foreach($images as $index => $image)
                                 @if($index === 0)
-                                    <img id="mainImage" src="{{ asset('storage/' . $image->image) }}" class="card-img-top img-fluid  mt-4 custom-rounded zoomable" alt="{{ $products->name }}">
+                                    <img id="mainImage" src="{{ asset('storage/' . $image->image) }}" class="card-img-top img-fluid custom-rounded zoomable" alt="{{ $products->name }}">
                                 @endif
                             @endforeach
                             <hr>
@@ -27,7 +27,7 @@
                             <img src="{{ asset('assets/image/Icon/noproduct.jpg') }}" class="card-img-top img-fluid custom-rounded" alt="No Photos">
                         @endif
                     </div>                            
-                    <div class="col-md-8 mt-4 text-start">
+                    <div class=" col-md-8 mt-4 text-start">
                         <div class="card-body">
                             <h2 class="card-title text-start">{{ $products->name }}</h2>
                             <div class="d-flex gap-3 py-3">
@@ -42,21 +42,21 @@
                                 <div class="text-success"><i class='bx bxs-cart-alt align-middle'></i> 134 orders</div>
                             </div>
                             <div class="mb-3"> 
-                                <span class="price h4">$ {{ $products->price }}</span> 
+                                <span class="price h4">PRICE ${{ $products->price }}</span> 
                             </div>
                             <dl class="row">
                                 <dt class="col-sm-4">Description :</dt>
-                                <dd class="col-sm-5">{{ $products->description }}</dd>
+                                <dd class="">{{ $products->description }}</dd>
                                 <dt class="col-sm-4">Model / Code :</dt>
-                                <dd class="col-sm-5">{{ $products->code }}</dd>
-                                <dt class="col-sm-4">Color :</dt>
-                                <dd class="col-sm-5">Brown</dd>
+                                <dd class="col-sm-5 text-uppercase">#{{ $products->code }}</dd>
+                                <dt class="col-sm-4">Type :</dt>
+                                <dd class="col-sm-5">{{ $products->category->name }}</dd>
                                 <dt class="col-sm-4">Stock :</dt>
                                 <dd class="col-sm-5">{{ $products->stock }}</dd>
                                 <dt class="col-sm-4">Delivery :</dt>
                                 <dd class="col-sm-5">World Wide</dd>
                             </dl>
-                            {{-- <hr> --}}
+                            <hr>
                             {{-- <div class="row row-cols-auto row-cols-1 row-cols-md-3 align-items-center">
                                 <div class="col">
                                     <label class="form-label">Quantity</label>
@@ -84,11 +84,11 @@
                                     </div>
                                 </div> 
                             </div>
-                            <div class="gap-3 mt-3">
+                             --}}
+                             <div class="gap-3 mt-3">
                                 <a href="#" class="btn btn-dark btn-sm">Buy Now</a>
                                 <a href="#" class="btn btn-outline-dark btn-sm"><span class="">Add to cart</span> <i class='bx bxs-cart-alt'></i></a>
                             </div>
-                             --}}
                         </div>
                     </div>
                 </div>

@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Validator;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,5 +28,7 @@ class AppServiceProvider extends ServiceProvider
         Validator::replacer('customPassword', function ($message, $attribute, $rule, $parameters) {
             return str_replace(':attribute', $attribute, 'Password must be 8 in length and have Capital Letters and at least 1 Number or Symbol');
         });
+
+        Paginator::useBootstrap();
     }
 }

@@ -47,19 +47,25 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Category::factory()->create([
-            'name' => 'T-Shirt',
-            'slug' => 't-shirt',
-            'description' => 'T-Shirt'
+            'name' => 'Cassette',
+            'slug' => 'cassette',
+            'description' => 'Cassette'
         ]);
         Category::factory()->create([
-            'name' => 'Pants',
-            'slug' => 'pants',
-            'description' => 'Pants'
+            'name' => 'CD',
+            'slug' => 'cd',
+            'description' => 'CD'
+        ]);
+        Category::factory()->create([
+            'name' => 'Vinyl',
+            'slug' => 'Vinyl',
+            'description' => 'Vinyl'
         ]);
         Customer::factory()->create([
             'name' => 'Guest',
-            'address' => 'None',
-            'contact' => 'None',
+            'address' => '',
+            'contact' => '',
+            'email' => '',
         ]);
         Supplier::factory(5)->create();
         Product::factory(20)->create();

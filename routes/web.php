@@ -33,6 +33,20 @@ Route::middleware(['auth'])->group(function(){
             Route::get('/profile', 'edit')->name('user.profile');
             Route::put('/{id}/update', 'update')->name('user.update');
         });
+        Route::prefix('orders')->group(function(){
+            Route::controller(OrderController::class)->group(function(){
+                Route::get('/{id}/destroy', 'destroy')->name('order.destroy');
+            });
+        });
+        Route::prefix('customers')->group(function(){
+            Route::controller(CustomerController::class)->group(function(){
+                Route::put('/{id}/update', 'update')->name('customer.update');
+            });
+        }); 
+        Route::controller(ViewController::class)->group(function(){
+            Route::get('/invoice/{code}', 'invoice')->name('invoice');
+
+        });
 });
 
 // Route Admin 
@@ -40,8 +54,6 @@ Route::middleware(['auth', 'checkrole:1'])->group(function(){
     Route::prefix('admin')->group(function(){
         Route::controller(ViewController::class)->group(function(){
             Route::get('/dashboard', 'index');
-            Route::get('/invoice/{code}', 'invoice')->name('invoice');
-
         });
         Route::prefix('products')->group(function(){
             Route::controller(ProductController::class)->group(function(){
@@ -68,30 +80,16 @@ Route::middleware(['auth', 'checkrole:1'])->group(function(){
                 Route::get('/', 'index');
                 Route::get('/add', 'create');
                 Route::post('/add/store', 'store')->name('admin.order.store');
-                Route::put('/{id}', 'show')->name('order.show');
-                Route::put('/{id}/update', 'update')->name('order.update');
-                Route::get('/{id}/destroy', 'destroy')->name('order.destroy');
+                Route::get('/edit/{code}', 'store')->name('order.edit');
             });
         });
         Route::prefix('transactions')->group(function(){
             Route::controller(TransactionController::class)->group(function(){
                 Route::get('/', 'index');
                 Route::get('/add', 'create');
+                Route::get('/order/details', 'getOrderDetails')->name('getorderAdmin');
                 Route::post('/add/store', 'store')->name('transaction.add');
-                Route::put('/{id}', 'show')->name('transaction.show');
-                Route::put('/{id}/update', 'update')->name('transaction.update');
                 Route::get('/{id}/destroy', 'destroy')->name('transaction.destroy');
-            });
-        });
-        Route::prefix('suppliers')->group(function(){
-            Route::controller(SupplierController::class)->group(function(){
-                Route::get('/', 'index');
-                Route::get('/add', 'create');
-                Route::post('/add/store', 'store')->name('supplier.add');
-                Route::get('/{id}', 'show')->name('supplier.show');
-                Route::get('/{id}/edit', 'edit')->name('supplier.edit');
-                Route::put('/{id}/update', 'update')->name('supplier.update');
-                Route::get('/{id}/destroy', 'destroy')->name('supplier.destroy');
             });
         });
         Route::prefix('categories')->group(function(){
@@ -99,9 +97,6 @@ Route::middleware(['auth', 'checkrole:1'])->group(function(){
                 Route::get('/', 'index');
                 Route::get('/add', 'create');
                 Route::post('/add/store', 'store')->name('categories.add');
-                Route::get('/{id}', 'show')->name('category.show');
-                Route::get('/{id}/edit', 'edit')->name('category.edit');
-                Route::put('/{id}/update', 'update')->name('category.update');
                 Route::get('/{id}/destroy', 'destroy')->name('category.destroy');
             });
         });
@@ -109,19 +104,29 @@ Route::middleware(['auth', 'checkrole:1'])->group(function(){
             Route::controller(CustomerController::class)->group(function(){
                 Route::get('/', 'index');
                 Route::get('/add', 'create');
-                Route::post('/add/store', 'store')->name('customers.add');
-                Route::get('/{id}', 'show')->name('customer.show');
-                Route::get('/{id}/edit', 'edit')->name('customer.edit');
-                Route::put('/{id}/update', 'update')->name('customer.update');
+                Route::post('/add/store', 'store')->name('admin.customers.add');
                 Route::get('/{id}/destroy', 'destroy')->name('customer.destroy');
             });
         }); 
+        Route::prefix('suppliers')->group(function(){
+            Route::controller(SupplierController::class)->group(function(){
+                Route::get('/', 'index');
+                Route::get('/add', 'create');
+                Route::post('/add/store', 'store')->name('supplier.add');
+                Route::put('/{id}/update', 'update')->name('supplier.update');
+                Route::get('/{id}/destroy', 'destroy')->name('supplier.destroy');
+            });
+        });
     });
 }); 
 
 // Route Kasir
 Route::middleware(['auth', 'checkrole:2'])->group(function(){
     Route::prefix('cashier')->group(function(){
+        Route::controller(ViewController::class)->group(function(){
+            Route::get('/dashboard', 'index');
+
+        });
         Route::prefix('products')->group(function(){
             Route::controller(ProductController::class)->group(function(){
                 Route::get('/', 'index');
@@ -133,18 +138,14 @@ Route::middleware(['auth', 'checkrole:2'])->group(function(){
                 Route::get('/', 'index');
                 Route::get('/add', 'create');
                 Route::post('/add/store', 'store')->name('cashier.order.store');
-                Route::put('/{id}', 'show')->name('order.show');
-                Route::put('/{id}/update', 'update')->name('order.update');
-                Route::get('/{id}/destroy', 'destroy')->name('order.destroy');
             });
         });
         Route::prefix('transactions')->group(function(){
             Route::controller(TransactionController::class)->group(function(){
                 Route::get('/', 'index');
+                 Route::get('/order/details', 'getOrderDetails')->name('getorderCashier');
                 Route::get('/add', 'create');
                 Route::post('/add/store', 'store')->name('transaction.add');
-                Route::put('/{id}', 'show')->name('transaction.show');
-                Route::put('/{id}/update', 'update')->name('transaction.update');
                 Route::get('/{id}/destroy', 'destroy')->name('transaction.destroy');
             });
         });
@@ -152,10 +153,7 @@ Route::middleware(['auth', 'checkrole:2'])->group(function(){
             Route::controller(CustomerController::class)->group(function(){
                 Route::get('/', 'index');
                 Route::get('/add', 'create');
-                Route::post('/add/store', 'store')->name('customers.add');
-                Route::get('/{id}', 'show')->name('customer.show');
-                Route::get('/{id}/edit', 'edit')->name('customer.edit');
-                Route::put('/{id}/update', 'update')->name('customer.update');
+                Route::post('/add/store', 'store')->name('cashier.customers.add');
                 Route::get('/{id}/destroy', 'destroy')->name('customer.destroy');
             });
         }); 

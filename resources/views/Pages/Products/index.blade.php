@@ -12,7 +12,7 @@
                             @endif
                         </div> 
                         <div class="col-lg-9 col-xl-10 @if(auth()->check() && auth()->user()->roleId === 2) align-items-center @endif">
-                          <form class="@if(auth()->check() && auth()->user()->roleId === 1) float-lg-end @endif">
+                            <form class="d-flex justify-content-end @if(auth()->check() && auth()->user()->roleId === 1) float-lg-end @endif">
                               <div class="row row-cols-lg-auto g-2">
                                   <div class="col-lg">
                                       <div class="position-relative">
@@ -20,7 +20,7 @@
                                           <span class="position-absolute product-show translate-middle-y"><i class="bx bx-search"></i></span>
                                       </div>
                                   </div>
-                                  <div class="col-12">
+                                  {{-- <div class="col-12">
                                     <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                                         <button type="button" class="btn btn-white">Sort By</button>
                                         <div class="btn-group" role="group">
@@ -35,7 +35,7 @@
                                             </ul>
                                           </div>
                                       </div>
-                                  </div>
+                                  </div> --}}
                                   <div class="col-12">
                                       <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                                           <button type="button" class="btn btn-white">Type</button>
@@ -85,12 +85,12 @@
                 @if(auth()->check() && auth()->user()->roleId === 1)
                 <div class="d-flex align-items-center mt-3 fs-6">
                     <div class="cursor-pointer">
-                        <a href="{{ route('product.edit', encrypt($product->id)) }}" class="btn btn-outline-secondary btn-dark text-white">
+                        <a href="{{ route('product.edit', encrypt($product->id)) }}" class="btn btn-outline-secondary btn-primary text-white">
                             <i class='bx bxs-edit'></i>
                         </a>
                     </div>                        
                     <div class="mb-0 ms-auto">
-                        <a href="{{ route('product.destroy', encrypt($product->id)) }}" class="btn btn-outline-secondary btn-dark text-white deleteProductBtn" data-id="{{ encrypt($product->id) }}">
+                        <a href="{{ route('product.destroy', encrypt($product->id)) }}" class="btn btn-outline-secondary btn-danger text-white deleteProductBtn" data-id="{{ encrypt($product->id) }}">
                             <i class='bx bxs-trash'></i>
                         </a>                                               
                     </div>
@@ -107,13 +107,15 @@
                   <p class="mb-0 ms-auto">haha</p>
                 </div>
                 @endif
-              </div>
+              </div> 
             </div>
           </a>
         </div>
       @endforeach
     </div>
-
+    <div class="d-flex justify-content-center">
+        {{ $products->links() }}
+    </div>
     <div id="noProductMessage" class="row justify-content-center d-none">
         <h2 class="text-center">Product does not exist</h2>
     </div>

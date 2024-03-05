@@ -34,7 +34,7 @@ class AuthController extends Controller
             'username' => 'required|exists:users,username',
             'password' => 'required',
         ], [
-            'username.exists' => 'There is no such username.',
+            'username.exists' => 'There is no such username.', 
             'password.required' => 'The password field is required.',
         ]);
     

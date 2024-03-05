@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\Product;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 
@@ -13,15 +14,48 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $orders = Order::all();
-
-        $groupedOrders = $orders->groupBy('code');
+        $orders = Order::latest()->get();
         return view('Pages.Orders.index', [
             'title' => 'Transactions',
-            'order' => Order::latest()->get(),
-            'groupedOrders' => $groupedOrders
+            'orders' => $orders,
         ]);
     }
+    
+    public function getOrderDetails(Request $request)
+    {
+        $code = decrypt($request->code);
+        $order = Order::where('code', $code)->first();
+        $products = Product::all();
+
+        $orderDetails = '';
+        $totalQuantity = 0;
+        $grandTotal = 0;
+
+        foreach (json_decode($order->productId) as $key => $productId) {
+            $product = $products->where('id', $productId)->first();
+            $quantity = json_decode($order->quantity)[$key];
+            $subtotal = $product->price * $quantity;
+            $totalQuantity += $quantity;
+            $grandTotal += $subtotal;
+
+            $orderDetails .= '<tr>
+                                <td class="no text-center">' . ($key + 1) . '</td>
+                                <td class="product text-center">' . $product->name . ' (' . $product->category->name . ')</td>
+                                <td class="qty text-center">' . $quantity . '</td>
+                                <td class="price text-center">$' . $product->price . '</td>
+                                <td class="subtotal text-center">$' . $subtotal . '</td>
+                            </tr>';
+        }
+
+        return response()->json([
+            'orderDetails' => $orderDetails,
+            'grandTotal' => $grandTotal,
+            'orderCode' => $order->code, 
+            'customerName' => $order->customer->name, 
+            'orderDate' => \Carbon\Carbon::parse($order->date)->format('l, j F Y')
+        ]);
+    }
+
 
     /**
      * Show the form for creating a new resource.

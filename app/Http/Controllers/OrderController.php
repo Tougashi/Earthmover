@@ -16,14 +16,13 @@ class OrderController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        $orders = Order::all();
+    { 
+        $order = Order::where('code')->firstOrFail();
 
-        $groupedOrders = $orders->groupBy('code');
         return view('Pages.Orders.index', [
             'title' => 'Orders',
-            'order' => Order::latest()->get(),
-            'groupedOrders' => $groupedOrders
+            'orders' => Order::latest()->get(),
+            'order' => $order,
         ]);
     }
 
@@ -62,9 +61,9 @@ class OrderController extends Controller
         $validatedData['userId'] = auth()->user()->id;
         $validatedData['date'] = now();
 
-        $uniqueCode = Faker::create()->unique()->bothify('???##?');
+        $uniqueCode = Faker::create()->unique()->bothify('?#?#?#');
         while (Order::where('code', $uniqueCode)->exists()) {
-            $uniqueCode = Faker::create()->unique()->bothify('???##?');
+            $uniqueCode = Faker::create()->unique()->bothify('?#?#?#');
         }
         $validatedData['code'] = $uniqueCode;
 
@@ -78,34 +77,8 @@ class OrderController extends Controller
     
     
         return response()->json(['code' => $uniqueCode]);
-    }
-    
-    
+    }   
 
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Order $order)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Order $order)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Order $order)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.

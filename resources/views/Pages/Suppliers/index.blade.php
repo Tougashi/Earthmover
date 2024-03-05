@@ -15,6 +15,7 @@
                                 <th>No</th>
                                 <th>Name</th>
                                 <th>Contact</th> 
+                                <th>Email</th>
                                 <th>Created At</th>
                                 <th></th>
                             </tr>
@@ -25,11 +26,16 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->name }}</td>
                                 <td>{{ $item->contact }}</td>
+                                <td>{{ $item->email }}</td>
                                 <td>{{ $item->created_at->formatLocalized('%d %B %Y') }}</td>
                                 <td>
                                     <div class="d-flex order-actions gap-2 justify-content-center">
-                                        <a href="" class="btn btn-dark btn-outline-secondary"><i class='bx bxs-show text-white'></i></a>
-                                        <a href="" class="btn btn-dark btn-outline-secondary"><i class='bx bxs-trash text-white'></i></a>
+                                        <a href="javascript:(void);" class="btn btn-outline-secondary btn-primary editUserBtn text-white" data-id="{{ encrypt($item->id) }}" data-name="{{ $item->name }}" data-address="{{ $item->address }}" data-contact="{{ $item->contact }}" data-email="{{ $item->email }}" data-bs-toggle="modal" data-bs-target="#updateModal">
+                                            <i class="bx bx-edit"></i>
+                                        </a>                                         
+                                        <a href="javascript:(void);" class="btn btn-outline-secondary btn-danger text-white deleteProductBtn" data-id="{{ encrypt($item->id) }}">
+                                            <i class='bx bxs-trash'></i>
+                                        </a>      
                                     </div>
                                 </td>
                             </tr>
@@ -42,17 +48,143 @@
     </div>
 </div>
 
+<!-- Modal -->
+<form id="supplierForm" method="POST" enctype="multipart/form-data">
+    @csrf
+    @method('PUT')
+    <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-sm ms-auto mx-auto justify-content-center">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editRoleModalLabel">Edit Supplier</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-body mt-4">
+                        <div class="border border-dark border-3 p-4 custom-rounded">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label for="inputTitle" class="form-label">Name</label>
+                                    <input type="text" name="name" class="form-control border-dark border-2" id="inputSupplierName" required>
+                                </div>
+                                <div class="col-12">
+                                    <label for="inputTitle" class="form-label">Contact</label>
+                                    <input type="text" name="contact" class="form-control border-dark border-2" id="inputSupplierContact" required>
+                                </div>
+                                <div class="col-12">
+                                    <label for="inputTitle" class="form-label">Email</label>
+                                    <input type="email" name="email" class="form-control border-dark border-2" id="inputSupplierEmail" required>
+                                </div>
+                                <div class="col-12">
+                                    <label for="inputDescription" class="form-label">Address</label>
+                                    <textarea class="form-control border-dark border-2" name="address" id="inputSupplierAddress" rows="3" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="submitUpdateBtn" class="btn btn-dark custom-rounded">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>    
+</form>
+
 @push('scripts')
 
-<script>
-     $(document).ready(function() {
-			let table = $('#example').DataTable( {
-			} );
-            $('.dataTables_filter input').addClass('border border-2 border-dark');
-			
-		} );
+    <script>
+        $(document).ready(function() {
+                let table = $('#example').DataTable( {
+                } );
+                $('.dataTables_filter input').addClass('border border-2 border-dark');
+                
+        } );
+
+        @if($suppliers->isNotEmpty())
+        $(document).ready(function () {
+            $('.deleteProductBtn').click(function (e) {
+                e.preventDefault();
+                var supplierId = $(this).data('id');
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "{{ route('supplier.destroy', ':id') }}".replace(':id', supplierId),
+                            type: "get",
+                            data: {
+                                _token: "{{ csrf_token() }}"
+                            },
+                            success: function (response) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Success',
+                                    text: response.message,
+                                    toast: true,
+                                    position: 'top-end',
+                                    showConfirmButton: false,
+                                    timer: 3000 
+                                });
+                                window.location.reload();
+                            },
+                            error: function (xhr, status, error) {
+                                console.error(xhr.responseText);
+                            }
+                        });
+                    } 
+                });
+            });
+        });
+        $(document).ready(function () {
+            $('.editUserBtn').click(function () {
+                var name = $(this).data('name');
+                var contact = $(this).data('contact');
+                var email = $(this).data('email');
+                var address = $(this).data('address');
+
+                $('#inputSupplierName').val(name);
+                $('#inputSupplierContact').val(contact);
+                $('#inputSupplierEmail').val(email);
+                $('#inputSupplierAddress').val(address);
+            });
+        });
+
+        $('#submitUpdateBtn').click(function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: "{{ route('supplier.update', ':id') }}".replace(':id', '{{ $item->id }}'),
+                type: "POST",
+                data: new FormData($('#supplierForm')[0]),
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: response.message,
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+                    window.location.reload();
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        });
         
-</script>
+
+        @endif  
+    </script>
     
 @endpush
 

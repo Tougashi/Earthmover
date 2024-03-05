@@ -21,7 +21,7 @@ class ViewController extends Controller
         $code = urldecode($code);
         $order = Order::where('code', $code)->firstOrFail();
 
-        return view('Components.invoice', [
+        return view('Components.invoice', [ 
             'order' => $order,
             'products' => Product::all(),
         ]);

@@ -18,11 +18,13 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->integer('stock');
             $table->decimal('price', 10);
-            $table->enum('type', ['Male', 'Female', 'Unisex']);
+            // $table->enum('type', ['Male', 'Female', 'Unisex'])->nullable();
             $table->unsignedBigInteger('supplierId')->nullable();
             $table->foreign('supplierId')->references('id')->on('suppliers')->onDelete('cascade')->onUpdate('cascade');
-            $table->unsignedBigInteger('categoryId');
+            $table->unsignedBigInteger('categoryId')->nullable();
             $table->foreign('categoryId')->references('id')->on('categories')->onDelete('cascade')->onUpdate('cascade');
+            $table->unsignedBigInteger('typeId')->nullable();
+            $table->foreign('typeId')->references('id')->on('types')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

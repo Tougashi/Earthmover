@@ -20,7 +20,6 @@
 	<link href="{{ asset('/assets/plugins/select2/css/select2-bootstrap4.css') }}" rel="stylesheet" />
 
     {{-- JS SCRIPT  --}}
-    <script src="{{ asset('/assets/js/script.js') }}"></script>
     <script src="{{ asset('/assets/plugins/JQuery/jquery-3.7.1.min.js') }}"></script>
     <script src="{{ asset('/assets/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('/assets/plugins/Bootstrap/js/bootstrap.min.js') }}"></script>

@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Session;
+use Faker\Factory as Faker;
 
 
 class ProductController extends Controller
@@ -18,7 +19,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
+        $products = Product::latest()->paginate(16);
 
         $images = [];
         foreach ($products as $product) {
@@ -50,24 +51,26 @@ class ProductController extends Controller
     {
         $image = array();
         $request->validate([
-            'code' => 'required|string',
             'name' => 'required|string',
             'image.*' => 'nullable|file|mimes:jpeg,jpg,png,gif,svg|max:10240',
             'description' => 'nullable|string',
             'stock' => 'required|integer',
             'price' => 'required|numeric',
-            'type' => 'required|string|in:Male,Female,Unisex',
             'supplierId' => 'nullable|exists:suppliers,id',
             'categoryId' => 'required|exists:categories,id',
         ]);
+        $uniqueCode = Faker::create()->unique()->bothify('?#?#?#');
+        while (Product::where('code', $uniqueCode)->exists()) {
+            $uniqueCode = Faker::create()->unique()->bothify('?#?#?#');
+        }
+        $validatedData['code'] = $uniqueCode;
     
         $product = Product::create([
-            'code' => $request->code,
+            'code' => $uniqueCode,
             'name' => $request->name,
             'description' => $request->description,
             'stock' => $request->stock,
             'price' => $request->price,
-            'type' => $request->type,
             'supplierId' => $request->supplierId,
             'categoryId' => $request->categoryId,
         ]);
@@ -132,12 +135,11 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'stock' => 'integer',
             'price' => 'numeric',
-            'type' => 'string|in:Male,Female,Unisex',
             'supplierId' => 'nullable|exists:suppliers,id',
             'categoryId' => 'exists:categories,id',
         ]);
 
-        $requestData = $request->only(['code', 'name', 'description', 'stock', 'price', 'type', 'supplierId', 'categoryId']);
+        $requestData = $request->only(['code', 'name', 'description', 'stock', 'price', 'supplierId', 'categoryId']);
         $product->update($requestData);
     
         if ($request->hasFile('image')) {
@@ -166,9 +168,7 @@ class ProductController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy($id)
-    {
-        // $id = decrypt($encryptedId);
-        
+    {   
         $product = Product::find($id);
         Product::destroy(decrypt($id));
     
