@@ -38,7 +38,7 @@
         </div>
     </div>
     
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5 product-grid">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-3 row-cols-xxl-4 product-grid">
         @foreach ($users as $item)
         <div class="col product-card">
             <div class="card mb-3 shadow custom-rounded">

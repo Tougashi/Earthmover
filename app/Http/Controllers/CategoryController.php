@@ -58,7 +58,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $category = Category::find($id);
+        $category = Category::find(decrypt($id));
         $validatedData = $request->validate([
             'name' => 'required|string|unique:categories,name,' . $category->id,
             'description' => 'nullable|string',

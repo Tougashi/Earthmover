@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ $title }}</title>
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/image/logo/logo.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/image/logo/logo.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/image/logo/logo.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/image/logo/logo.png') }}">
     
     {{-- CSS STYLE  --}}
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
@@ -27,33 +27,24 @@
                                         <img src="/assets/image/logo/logo-text.png" alt="Kantinku" width="300" class="rounded mx-auto d-block mb-2">
                                     </div>
                                     <div class="form-body">
-                                        <form class="row g-3" action="{{ route('auth') }}" method="POST">
+                                        <form action="/reset-password" method="POST">
                                             @csrf
-                                            <div class="col-12">
-                                                <label for="Username" class="form-label">Username</label>
-                                                <input type="text" class="form-control border border-dark @error('username') is-invalid @enderror" id="username" placeholder="John Doe" name="username">
-                                                @error('username')
-                                                    <div class="invalid-feedback">{{ $message }}</div>
-                                                @enderror
+                                            <input type="hidden" name="token" value="{{ $token }}">
+                                            <input type="hidden" name="email" value="{{ $email }}">
+                                            <div class="input-group mb-3" id="showHide">
+                                                <input type="password" name="password" id="password" class="form-control border border-dark form-control-lg bg-light fs-6 @error('password') is-invalid @enderror" placeholder="Password">
+                                                <a href="#" class="input-group-text bg-transparent border border-dark"><i class='bx bx-hide'></i></a>
+                                                @error('password')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                             </div>
-                                            <div class="col-12">
-                                                <label for="inputChoosePassword" class="form-label">Password</label>
-                                                <div class="input-group" id="showHide">
-                                                    <input type="password" class="form-control border border-dark @error('password') is-invalid @enderror" id="password" placeholder="********" name="password">
-                                                    <a href="#" class="input-group-text bg-transparent border border-dark"><i class='bx bx-hide'></i></a>
-                                                    @error('password')
-                                                        <div class="invalid-feedback">{{ $message }}</div>
-                                                    @enderror
-                                                </div>
+                                            <div class="input-group mb-3" id="showHide">
+                                                <input type="password" name="password_confirmation" id="password_confirmation" class="form-control border border-dark form-control-lg bg-light fs-6 @error('password_confirmation') is-invalid @enderror" placeholder="Password Confirmation">
+                                                <a href="#" class="input-group-text bg-transparent border border-dark"><i class='bx bx-hide'></i></a>
+                                                @error('password_confirmation')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                             </div>
-                                            
-                                            <div class="col-md-6"><a href="/forgot-password" class="text-black">Forgot password?</a></div>
-                                            <div class="col-md-6 text-end"><a href="/signup" class="text-black">Don't have an account?</a></div>
-                                            <div class="col-12">
-                                                <div class="d-grid">
-                                                    <button type="submit" class="btn btn-dark"><i class="bx bxs-lock-open"></i> Sign In</button>
-                                                </div>
+                                            <div class="input-group mb-3">
+                                              <button class="btn btn-dark w-100 fs-6">Reset Password</button>
                                             </div>
+                                          </form>
                                         </form>
                                     </div>
                                 </div>

@@ -4,6 +4,7 @@ use App\Models\Category;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ViewController;
 use App\Http\Controllers\OrderController;
@@ -22,6 +23,14 @@ Route::middleware(['guest'])->group(function(){
         Route::get('/signup', 'registration')->name('registration');
         Route::post('/signup', 'signup')->name('signup');
     });
+    Route::controller(ForgotPasswordController::class)->group(function(){
+        Route::get('/forgot-password', 'showLinkRequestForm')->name('password.request');
+        Route::post('/forgot-password', 'sendResetLinkEmail');
+        Route::get('/reset-password/{token}', 'showResetForm')->name('password.reset');
+        Route::post('/reset-password', 'reset')->name('password.update');
+    });
+
+
 });
 
 // Route auth
@@ -41,10 +50,12 @@ Route::middleware(['auth'])->group(function(){
         Route::prefix('customers')->group(function(){
             Route::controller(CustomerController::class)->group(function(){
                 Route::put('/{id}/update', 'update')->name('customer.update');
+                Route::get('/{id}/destroy', 'destroy')->name('customer.destroy');
             });
         }); 
         Route::controller(ViewController::class)->group(function(){
             Route::get('/invoice/{code}', 'invoice')->name('invoice');
+            Route::get('/invoice/{code}/mail', 'invoiceMail')->name('invoice.mail');
 
         });
 });
@@ -97,6 +108,7 @@ Route::middleware(['auth', 'checkrole:1'])->group(function(){
                 Route::get('/', 'index');
                 Route::get('/add', 'create');
                 Route::post('/add/store', 'store')->name('categories.add');
+                Route::put('/update/{id}', 'update')->name('category.update');
                 Route::get('/{id}/destroy', 'destroy')->name('category.destroy');
             });
         });
@@ -105,7 +117,6 @@ Route::middleware(['auth', 'checkrole:1'])->group(function(){
                 Route::get('/', 'index');
                 Route::get('/add', 'create');
                 Route::post('/add/store', 'store')->name('admin.customers.add');
-                Route::get('/{id}/destroy', 'destroy')->name('customer.destroy');
             });
         }); 
         Route::prefix('suppliers')->group(function(){
@@ -154,7 +165,6 @@ Route::middleware(['auth', 'checkrole:2'])->group(function(){
                 Route::get('/', 'index');
                 Route::get('/add', 'create');
                 Route::post('/add/store', 'store')->name('cashier.customers.add');
-                Route::get('/{id}/destroy', 'destroy')->name('customer.destroy');
             });
         }); 
     });

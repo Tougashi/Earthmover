@@ -50,15 +50,15 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    {{-- <div class="col-12">
-                                        <label for="inputType" class="form-label">Type</label>
-                                        <select class="form-select border-dark border-2" id="inputType" name="type" required>
+                                    <div class="col-12">
+                                        <label for="inputSupplier" class="form-label">Supplier</label>
+                                        <select class="form-select border-dark border-2" id="inputSupplier" name="supplierId" required>
                                             <option selected disabled>Choose...</option>
-                                            <option value="Male">Male</option>
-                                            <option value="Female">Female</option>
-                                            <option value="Unisex">Unisex</option>
+                                            @foreach ($supplier as $item)    
+                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                            @endforeach
                                         </select>
-                                    </div> --}}
+                                    </div>
                                     <div class="col-12">
                                         <div class="d-grid">
                                             <button type="button" id="submitBtn" class="btn btn-dark custom-rounded">Save Product</button>
@@ -90,7 +90,7 @@
             let category = $('#inputCategory').val().trim();
             let price = $('#inputPrice').val().trim();
             let stock = $('#inputStock').val().trim();
-            // let code = $('#inputCode').val().trim();
+            let supplier = $('#inputSupplier').val().trim();
 
             if (!productName || !productDescription || !price || !stock || !category) {
                 Swal.fire({

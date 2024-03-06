@@ -60,7 +60,7 @@ class CustomerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $customer = Customer::find($id);
+        $customer = Customer::find(decrypt($id));
         $validatedData = $request->validate([
             'name' => 'required|string|unique:customers,name,' . $customer->id,
             'address' => 'nullable|string',

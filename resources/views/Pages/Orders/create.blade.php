@@ -31,7 +31,7 @@
                                                     $stockClass = $product->stock == 0 ? 'text-danger' : '';
                                                 @endphp
                                                 <option value="{{ $product->id }}" data-code="{{ $product->code }}" data-name="{{ $product->name }}" data-price="{{ $product->price }}" data-id="{{ $product->id }}" data-stock="{{ $product->stock }}" class="{{ $stockClass }}" @if ($product->stock == 0) style="color: red;" @endif>
-                                                    {{ $product->code }} | {{ $product->name }} | ${{ $product->price }} | Stock: {{ $product->stock }}
+                                                    {{ $product->code }} | {{ $product->name }} | {{ $product->category->name }} | ${{ $product->price }} | Stock: {{ $product->stock }} 
                                                 </option>
                                                 @endforeach                                            
                                             </select>

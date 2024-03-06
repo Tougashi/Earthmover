@@ -31,7 +31,7 @@
                                         <a href="#" class="btn btn-outline-secondary btn-primary editUserBtn text-white" data-id="{{ encrypt($item->id) }}" data-name="{{ $item->name }}" data-description="{{ $item->description }}" data-bs-toggle="modal" data-bs-target="#updateModal">
                                             <i class="bx bx-edit"></i>
                                         </a>                                         
-                                        <a href="javascript:(void);" class="btn btn-outline-secondary btn-danger text-white deleteProductBtn" data-id="{{ encrypt($item->id) }}">
+                                        <a href="#" class="btn btn-outline-secondary btn-danger text-white deleteProductBtn" data-id="{{ encrypt($item->id) }}">
                                             <i class='bx bxs-trash'></i>
                                         </a>      
                                     </div>
@@ -61,6 +61,7 @@
                     <div class="form-body mt-4">
                         <div class="border border-dark border-3 p-4 custom-rounded">
                             <div class="row g-3">
+                                <input type="hidden" name="id" id="inputProductid">
                                 <div class="col-12">
                                     <label for="inputTitle" class="form-label">Name</label>
                                     <input type="text" name="name" class="form-control border-dark border-2" id="inputProductName" placeholder="Enter Product Name"  required>
@@ -81,6 +82,7 @@
     </div>
 </form>
 
+
 @push('scripts')
 
 <script>
@@ -91,6 +93,48 @@
 		} );
     
     @if($categories->isNotEmpty())
+       
+    $(document).ready(function() {
+    $('.editUserBtn').click(function() {
+        var id = $(this).data('id');
+        var name = $(this).data('name');
+        var description = $(this).data('description');
+
+        $('#inputProductid').val(id); 
+        $('#inputProductName').val(name);
+        $('#inputProductDescription').val(description);
+    });
+
+    $('#submitUpdateBtn').click(function (e) {
+        e.preventDefault();
+        var categoryId = $('#inputProductid').val(); 
+        $.ajax({
+            url: "{{ route('category.update', ':id') }}".replace(':id', categoryId),
+            type: "POST",
+            data: new FormData($('#userForm')[0]),
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: response.message,
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+                window.location.reload();
+                loadUsers();
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    });
+});
+
+
         $(document).ready(function () {
             $('.deleteProductBtn').click(function (e) {
                 e.preventDefault();
@@ -131,43 +175,6 @@
                 });
             });
         });
-        $(document).ready(function() {
-            $('.editUserBtn').click(function() {
-                var name = $(this).data('name');
-                var description = $(this).data('description');
-                
-                $('#inputProductName').val(name);
-                $('#inputProductDescription').val(description);
-            });
-        });
-
-        $('#submitUpdateBtn').click(function (e) {
-            e.preventDefault();
-            $.ajax({
-                url: "{{ route('category.update', ':id') }}".replace(':id', '{{ $item->id }}'),
-                type: "POST",
-                data: new FormData($('#userForm')[0]),
-                contentType: false,
-                processData: false,
-                success: function (response) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: response.message,
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000
-                    });
-                    window.location.reload();
-                    loadUsers();
-                },
-                error: function (xhr, status, error) {
-                    console.error(xhr.responseText);
-                }
-            });
-        });
-
     @endif 
 
         

@@ -37,7 +37,7 @@
                                         </a>                                         
                                         <a href="javascript:(void);" class="btn btn-outline-secondary btn-danger text-white deleteProductBtn" data-id="{{ encrypt($item->id) }}">
                                             <i class='bx bxs-trash'></i>
-                                        </a>      
+                                        </a>         
                                     </div>
                                 </td>
                             </tr>
@@ -65,6 +65,7 @@
                     <div class="form-body mt-4">
                         <div class="border border-dark border-3 p-4 custom-rounded">
                             <div class="row g-3">
+                                <input type="hidden" name="id" id="inputProductid">
                                 <div class="col-12">
                                     <label for="inputTitle" class="form-label">Name</label>
                                     <input type="text" name="name" class="form-control border-dark border-2" id="inputCustomerName" placeholder="" required>
@@ -102,6 +103,50 @@
 	});
 
     @if($customers->isNotEmpty())
+    $(document).ready(function () {
+            $('.editUserBtn').click(function () {
+                var id = $(this).data('id');
+                var name = $(this).data('name');
+                var contact = $(this).data('contact');
+                var email = $(this).data('email');
+                var address = $(this).data('address');
+
+                $('#inputProductid').val(id); 
+                $('#inputCustomerName').val(name);
+                $('#inputCustomerContact').val(contact);
+                $('#inputCustomerEmail').val(email);    
+                $('#inputCustomerAddress').val(address);
+            });
+        });
+
+        $('#submitUpdateBtn').click(function (e) {
+            e.preventDefault();
+            var customerId = $('#inputProductid').val(); 
+            $.ajax({
+                url: "{{ route('customer.update', ':id') }}".replace(':id', customerId),
+                type: "POST",
+                data: new FormData($('#userForm')[0]),
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: response.message,
+                        toast: true,
+                        position: 'top-end', 
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+                    window.location.reload();
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+        
+
         $(document).ready(function () {
             $('.deleteProductBtn').click(function (e) {
                 e.preventDefault();
@@ -140,46 +185,6 @@
                         });
                     } 
                 });
-            });
-        });
-        $(document).ready(function () {
-            $('.editUserBtn').click(function () {
-                var name = $(this).data('name');
-                var contact = $(this).data('contact');
-                var email = $(this).data('email');
-                var address = $(this).data('address');
-
-                $('#inputCustomerName').val(name);
-                $('#inputCustomerContact').val(contact);
-                $('#inputCustomerEmail').val(email);    
-                $('#inputCustomerAddress').val(address);
-            });
-        });
-
-        $('#submitUpdateBtn').click(function (e) {
-            e.preventDefault();
-            $.ajax({
-                url: "{{ route('customer.update', ':id') }}".replace(':id', '{{ $item->id }}'),
-                type: "POST",
-                data: new FormData($('#userForm')[0]),
-                contentType: false,
-                processData: false,
-                success: function (response) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: response.message,
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000
-                    });
-                    window.location.reload();
-                    loadUsers();
-                },
-                error: function (xhr, status, error) {
-                    console.error(xhr.responseText);
-                }
             });
         });
         

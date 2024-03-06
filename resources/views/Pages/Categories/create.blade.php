@@ -71,7 +71,6 @@
                         timer: 3000 
                     });
                     $('#categoryForm')[0].reset();
-                    loadProducts(); 
                 },
                 error: function (xhr, status, error) {
                     console.error(xhr.responseText);

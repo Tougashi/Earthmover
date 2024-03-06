@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Image;
 use App\Models\Product;
 use App\Models\Category;
-use App\Models\Image;
+use App\Models\Supplier;
+use Faker\Factory as Faker;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
-use Illuminate\Support\Facades\Session;
-use Faker\Factory as Faker;
 
 
 class ProductController extends Controller
@@ -44,6 +45,7 @@ class ProductController extends Controller
         return view('Pages.Products.create', [
             'title' => $title,
             'category' => Category::all(),
+            'supplier' => Supplier::all(),
         ]); 
     }
 

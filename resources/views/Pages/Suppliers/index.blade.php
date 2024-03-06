@@ -47,7 +47,7 @@
         </div>
     </div>
 </div>
-
+ 
 <!-- Modal -->
 <form id="supplierForm" method="POST" enctype="multipart/form-data">
     @csrf
@@ -63,6 +63,7 @@
                     <div class="form-body mt-4">
                         <div class="border border-dark border-3 p-4 custom-rounded">
                             <div class="row g-3">
+                                <input type="hidden" name="id" id="inputProductid">
                                 <div class="col-12">
                                     <label for="inputTitle" class="form-label">Name</label>
                                     <input type="text" name="name" class="form-control border-dark border-2" id="inputSupplierName" required>
@@ -144,11 +145,13 @@
         });
         $(document).ready(function () {
             $('.editUserBtn').click(function () {
+                var id = $(this).data('id');
                 var name = $(this).data('name');
                 var contact = $(this).data('contact');
                 var email = $(this).data('email');
                 var address = $(this).data('address');
 
+                $('#inputProductid').val(id); 
                 $('#inputSupplierName').val(name);
                 $('#inputSupplierContact').val(contact);
                 $('#inputSupplierEmail').val(email);
@@ -158,8 +161,9 @@
 
         $('#submitUpdateBtn').click(function (e) {
             e.preventDefault();
+            var supplierId = $('#inputProductid').val(); 
             $.ajax({
-                url: "{{ route('supplier.update', ':id') }}".replace(':id', '{{ $item->id }}'),
+                url: "{{ route('supplier.update', ':id') }}".replace(':id', supplierId),
                 type: "POST",
                 data: new FormData($('#supplierForm')[0]),
                 contentType: false,

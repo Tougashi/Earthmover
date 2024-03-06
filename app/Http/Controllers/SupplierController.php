@@ -57,12 +57,12 @@ class SupplierController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $supplier = Supplier::find($id);
+        $supplier = Supplier::find(decrypt($id));
         $validatedData = $request->validate([
-            'name' => 'required|string',
+            'name' => 'required|string|unique:suppliers,name,' . $supplier->id,
             'address' => 'nullable|string',
-            'email' => 'nullable|email',
-            'contact' => 'nullable|string',
+            'email' => 'nullable|email|unique:suppliers,email,' . $supplier->id,
+            'contact' => 'nullable|string|unique:suppliers,contact,' . $supplier->id,
         ]);
 
         $supplier->name = $validatedData['name'];

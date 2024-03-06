@@ -37,25 +37,26 @@ class AuthController extends Controller
             'username.exists' => 'There is no such username.', 
             'password.required' => 'The password field is required.',
         ]);
-    
+
         $credentials = $request->only('username', 'password');
-    
+
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
-    
+
             if($user->roleId == 1) {
-                return redirect('admin/dashboard')->with('success', 'Hallo, Admin!');
+                return redirect('admin/dashboard')->with('success', 'Welcome,' . $user->username);
             } elseif($user->roleId == 2) {
-                return redirect('cashier/dashboard')->with('success', 'Hallo, Cashier!');
+                return redirect('cashier/dashboard')->with('success', 'Welcome,' . $user->username);
             } elseif($user->roleId == 3) {
-                return redirect('/home')->with('success', 'Hallo, Customers!');   
+                return redirect('/home')->with('success', 'Welcome,' . $user->username);   
             } else {
                 return redirect('/')->with('warning', 'Unknown role for this user.');
             }
         }
-    
+
         return back()->withErrors(['Failed to signin']);
     }
+
     
 
     public function signup(Request $request)
